@@ -1,5 +1,7 @@
 package core;
 
+import java.util.ArrayList;
+
 import javax.swing.ImageIcon;
 
 import org.jbox2d.common.Vec2;
@@ -17,8 +19,11 @@ public class Main extends PApplet {
 	public static void main(String args[]) {
 		PApplet.main(new String[] {"core.Main" });
 	}
-
-	public GameWorld world1;
+	
+	ArrayList<GameWorld> worlds;
+	
+	GameWorld currWorld;
+	
 	public long lastTime;
 
 	public void setup() {
@@ -34,7 +39,8 @@ public class Main extends PApplet {
 		smooth();
 		this.rectMode(CENTER);
 		
-		Player p = new Player(100, 100);
+		worlds = new ArrayList<GameWorld>();
+		
 		Level l = new Level(20, 20);
 		GrassBlock gb = new GrassBlock();
 		for (int i = 0; i < 20; i++) {
@@ -49,7 +55,11 @@ public class Main extends PApplet {
 			l.setBlock(i+3, 15, gb);
 			l.setBlock(i+9, 13, gb);
 		}
-		world1 = new GameWorld(l, p);
+		
+		worlds.add(new GameWorld(l, new Player(100,100)));
+		worlds.add(new GameWorld(l, new Player(100,150)));
+		
+		currWorld = worlds.get(0);
 		
 		lastTime = this.millis();
 	}
@@ -59,8 +69,8 @@ public class Main extends PApplet {
 		float delta = getNewDelta();
 		clear();
 		background(0);
-		world1.update(delta);
-		world1.draw(g);
+		currWorld.update(delta);
+		currWorld.draw(g);
 		frame.setTitle(delta + "");
 	}
 	
@@ -71,27 +81,42 @@ public class Main extends PApplet {
 		return (float) (diff/16000000.0);
 	}
 	
+	public void changeWorld(int worldId) {
+		currWorld.playerLeft = false;
+		currWorld.playerRight = false;
+		currWorld.playerJump = false;
+		
+		currWorld = worlds.get(worldId);
+	}
+	
 	public void keyReleased() {
 		if (key == 'a') {
-			world1.playerLeft = false;
+			currWorld.playerLeft = false;
 		}
 		if (key == 'd') {
-			world1.playerRight = false;
+			currWorld.playerRight = false;
 		}
 		if (key == 'w') {
-			world1.playerJump = false;
+			currWorld.playerJump = false;
+		}
+		
+		if (key == 'l') {
+			changeWorld(0);
+		}
+		if (key == ';') {
+			changeWorld(1);
 		}
 	}
 	
 	public void keyPressed() {
 		if (key == 'a') {
-			world1.playerLeft = true;
+			currWorld.playerLeft = true;
 		}
 		if (key == 'd') {
-			world1.playerRight = true;
+			currWorld.playerRight = true;
 		}
 		if (key == 'w') {
-			world1.playerJump = true;
+			currWorld.playerJump = true;
 		}
 	}
 }
