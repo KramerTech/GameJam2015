@@ -54,8 +54,8 @@ public class GameWorld {
 		if (delta > 2)
 			delta = 2;
 		world.step(delta/35.0f, 12, 4);
-		player.update(delta);
 		player.doMovement(playerRight, playerLeft, playerJump, worldCL.footContacts);
+		player.update(delta);
 	}
 	
 	public void drawPlayer(PGraphics g) {

@@ -41,6 +41,8 @@ public class Player {
 	private Body playerBody;
 	private Body playerFeet;
 	
+	public boolean canJump = true;
+	
 	public Player(float x, float y) {
 		this.x = x;
 		this.y = y;
@@ -64,9 +66,19 @@ public class Player {
 			playerBody.applyLinearImpulse(new Vec2(-3, 0), new Vec2(0, 0));
 		}
 		
-		if (jump && footContacts != 0 && Math.abs(playerBody.getLinearVelocity().y) < .01) {
-			playerBody.applyLinearImpulse(new Vec2(0, -20), new Vec2(0, 0));
+		if (footContacts > 0)
+			canJump = true;
+		
+		float totalYImpulse = 0;
+		if (footContacts > 0 && Math.abs(playerBody.getLinearVelocity().y) < .01) {
+			totalYImpulse = -10;
 		}
+		if (jump && canJump) {
+			playerBody.setLinearVelocity(new Vec2(0, 0));
+			totalYImpulse = -20;
+			canJump = false;
+		}
+		playerBody.applyLinearImpulse(new Vec2(0, totalYImpulse), new Vec2(0, 0));
 	}
 	
 	public float getX() {
