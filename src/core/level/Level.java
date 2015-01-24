@@ -40,7 +40,7 @@ public class Level {
 		Block curBlock;
 		for (int xx = x; xx < x+w; xx++) {
 			for (int yy = y; yy < y+h; yy++) {
-				if (xx >= 0 && xx < w && yy >= 0 && yy < h) {
+				if (xx >= 0 && yy >= 0 && xx < width && yy < height) {
 					curBlock = level[xx][yy];
 					if (curBlock != null) {
 						g.pushMatrix();

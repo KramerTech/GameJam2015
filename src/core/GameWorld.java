@@ -37,10 +37,17 @@ public class GameWorld {
 	}
 	
 	public void draw(PGraphics g) {
+		g.pushMatrix();
+			float offsetX = -player.getX();
+			float offsetY = -player.getY();
+			g.translate(offsetX+g.width/2, offsetY+g.height/2);
+			
+			int renderHeight = 20;
+			int renderWidth = 40;
 		
-		level.draw(g, 0, 0, 20, 20);
-		drawPlayer(g);
-		
+			level.draw(g, (int)(-offsetX/32-renderWidth/2), (int) (-offsetY/32-renderHeight/2), renderWidth, renderHeight);
+			drawPlayer(g);
+		g.popMatrix();
 	}
 	
 	public void update(float delta) {
