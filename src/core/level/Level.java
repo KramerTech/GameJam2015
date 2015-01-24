@@ -15,6 +15,8 @@ import core.level.blocks.GrassBlock;
 import processing.core.PGraphics;
 
 public class Level {
+	
+	public static final int LEVEL_SENSOR_ID = 4;
 
 	private int width, height;
 	
@@ -82,6 +84,7 @@ public class Level {
 					fd.density = .5f;
 					fd.friction = 0f;
 					fd.restitution = 0f;
+					fd.userData = LEVEL_SENSOR_ID;
 					
 					world.createBody(bd).createFixture(fd);
 				}

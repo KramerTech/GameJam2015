@@ -6,22 +6,22 @@ import org.jbox2d.collision.Manifold;
 import org.jbox2d.dynamics.Fixture;
 import org.jbox2d.dynamics.contacts.Contact;
 
+import core.level.Level;
 import core.player.Player;
 
 public class WorldContactListener implements ContactListener {
 
 	@Override
 	public void beginContact(Contact contact) {
-		if (getFeetFixture(contact.getFixtureA(), contact.getFixtureB()) != null) {
-			footContacts++;
-		}
+		
+		if (hasID(contact, Player.FEET_SENSOR_ID, Level.LEVEL_SENSOR_ID))
+				footContacts++;
 	}
 
 	@Override
 	public void endContact(Contact contact) {
-		if (getFeetFixture(contact.getFixtureA(), contact.getFixtureB()) != null) {
+		if (hasID(contact, Player.FEET_SENSOR_ID, Level.LEVEL_SENSOR_ID))
 			footContacts--;
-		}
 	}
 
 	@Override
@@ -46,5 +46,17 @@ public class WorldContactListener implements ContactListener {
         }
         return null;
     }
+	
+	private boolean hasID(Contact contact, int id1, int id2) {
+		if (contact.getFixtureA().getUserData() == null || contact.getFixtureB().getUserData() == null)
+			return false;
+		
+		if ((Integer) contact.getFixtureA().getUserData() == id1 && (Integer) contact.getFixtureB().getUserData() == id2)
+			return true;
+		if ((Integer) contact.getFixtureA().getUserData() == id2 && (Integer) contact.getFixtureB().getUserData() == id1)
+			return true;
+		
+		return false;
+	}
 	
 }
