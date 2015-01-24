@@ -21,6 +21,7 @@ public class SoundPlayer {
 		
 		sounds.put("pickup", "res/sfx/pickup.wav");
 		sounds.put("jump", "res/sfx/jump.wav");
+		sounds.put("static", "res/sfx/static.wav");
 	}
 	
 	public void play(String name) {
