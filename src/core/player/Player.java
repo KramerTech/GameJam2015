@@ -20,10 +20,13 @@ import org.jbox2d.dynamics.joints.WeldJoint;
 import org.jbox2d.dynamics.joints.WeldJointDef;
 import org.jbox2d.*;
 
+import core.GameWorld;
 import core.WorldContactListener;
 import core.level.Level;
 import core.level.blocks.Block;
 import core.level.blocks.GrassBlock;
+import core.projectile.BounceyBall;
+import core.projectile.Projectile;
 import processing.core.PApplet;
 import processing.core.PGraphics;
 import sound.SoundPlayer;
@@ -39,20 +42,28 @@ public class Player {
 	private float x, y;
 	private float vx, vy;
 	
+	private boolean direction;
+	
 	private Body playerBody;
 	private Body playerFeet;
+	
+	private GameWorld world;
 	
 	public boolean canJump = true;
 	
 	private SoundPlayer sp;
 	
-	public Player(float x, float y, SoundPlayer sp) {
+	public Player(float x, float y, SoundPlayer sp, GameWorld world) {
+		this.world = world;
 		this.x = x;
 		this.y = y;
 		this.vx = 0;
 		this.vy = 0;
-		
 		this.sp = sp;
+	}
+	
+	public void setWorld(GameWorld world) {
+		this.world = world;
 	}
 	
 	public void draw(PGraphics g) {
@@ -64,10 +75,12 @@ public class Player {
 		playerBody.setLinearVelocity(new Vec2(playerBody.getLinearVelocity().x*.6f, playerBody.getLinearVelocity().y));
 	}
 	
-	public void doMovement(boolean right, boolean left, boolean jump, int footContacts) {
+	public void doMovement(boolean right, boolean left, boolean jump, int footContacts, boolean shoot) {
 		if (right) {
+			direction = true;
 			playerBody.applyLinearImpulse(new Vec2(3, 0), new Vec2(0, 0));
 		} else if (left) {
+			direction = false;
 			playerBody.applyLinearImpulse(new Vec2(-3, 0), new Vec2(0, 0));
 		}
 		
@@ -85,6 +98,11 @@ public class Player {
 			sp.play("jump");
 		}
 		playerBody.applyLinearImpulse(new Vec2(0, totalYImpulse), new Vec2(0, 0));
+		
+		if (shoot) {
+			System.out.println("Shoot");
+			world.shootProjectile(new BounceyBall(new Vec2(playerBody.getPosition().x*32 + 40, playerBody.getPosition().y*32), new Vec2(0, 0), playerBody.getWorld()));
+		}
 	}
 	
 	public float getX() {
@@ -130,10 +148,10 @@ public class Player {
 		playerBody.setLinearDamping(1f);
 
 		
-		//body definition
-		BodyDef bd2 = new BodyDef();
-		bd.position.set(x/32.0f, y/32.0f);
-		bd2.type = BodyType.DYNAMIC;
+//		//body definition
+//		BodyDef bd2 = new BodyDef();
+//		bd.position.set(x/32.0f, y/32.0f);
+//		bd2.type = BodyType.DYNAMIC;
 		 
 		//define shape of the body.
 		PolygonShape cs2 = new PolygonShape();

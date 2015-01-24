@@ -53,7 +53,7 @@ public class Main extends PApplet {
 			l.setBlock(i, 16, gb);
 			l.setBlock(i, 0, gb);
 			l.setBlock(0, i, gb);
-			//l.setBlock(16, i, gb);
+			l.setBlock(30, i, gb);
 		}
 		l.setBlock(5, 4, gb);
 		
@@ -62,8 +62,8 @@ public class Main extends PApplet {
 			l.setBlock(i+9, 13, gb);
 		}
 		
-		worlds.add(new GameWorld(l, new Player(100,100, soundPlayer)));
-		worlds.add(new GameWorld(l, new Player(100,150, soundPlayer)));
+		worlds.add(new GameWorld(l, new Player(100,100, soundPlayer, null)));
+		worlds.add(new GameWorld(l, new Player(100,150, soundPlayer, null)));
 		
 		currWorld = worlds.get(0);
 		
@@ -113,6 +113,9 @@ public class Main extends PApplet {
 		if (key == 'w') {
 			currWorld.playerJump = false;
 		}
+		if (key == 'j') {
+			currWorld.playerShoot = false;
+		}
 		
 		if (key == 'l') {
 			changeWorld(0);
@@ -131,6 +134,9 @@ public class Main extends PApplet {
 		}
 		if (key == 'w') {
 			currWorld.playerJump = true;
+		}
+		if (key == 'j') {
+			currWorld.playerShoot = true;
 		}
 	}
 }
