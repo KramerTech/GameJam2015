@@ -6,7 +6,7 @@ public class GrassBlock extends Block {
 
 	@Override
 	public void draw(PGraphics g) {
-		g.fill(0, 255, 0);
+		g.fill(80, 200, 0);
 		g.rect(0, 0, 32, 32);
 	}
 

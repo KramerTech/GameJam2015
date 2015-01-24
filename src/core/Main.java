@@ -11,6 +11,7 @@ import core.level.Level;
 import core.level.blocks.GrassBlock;
 import core.player.Player;
 import processing.core.PApplet;
+import sound.SoundPlayer;
 
 public class Main extends PApplet {
 
@@ -23,6 +24,9 @@ public class Main extends PApplet {
 	ArrayList<GameWorld> worlds;
 	
 	GameWorld currWorld;
+	SoundPlayer soundPlayer;
+	
+	int worldChangeDelay = 0;
 	
 	public long lastTime;
 
@@ -39,15 +43,17 @@ public class Main extends PApplet {
 		smooth();
 		this.rectMode(CENTER);
 		
+		soundPlayer = new SoundPlayer(this);
+		
 		worlds = new ArrayList<GameWorld>();
 		
-		Level l = new Level(20, 20);
+		Level l = new Level(200, 200);
 		GrassBlock gb = new GrassBlock();
-		for (int i = 0; i < 20; i++) {
+		for (int i = 0; i < 200; i++) {
 			l.setBlock(i, 16, gb);
 			l.setBlock(i, 0, gb);
 			l.setBlock(0, i, gb);
-			l.setBlock(16, i, gb);
+			//l.setBlock(16, i, gb);
 		}
 		l.setBlock(5, 4, gb);
 		
@@ -56,8 +62,8 @@ public class Main extends PApplet {
 			l.setBlock(i+9, 13, gb);
 		}
 		
-		worlds.add(new GameWorld(l, new Player(100,100)));
-		worlds.add(new GameWorld(l, new Player(100,150)));
+		worlds.add(new GameWorld(l, new Player(100,100, soundPlayer)));
+		worlds.add(new GameWorld(l, new Player(100,150, soundPlayer)));
 		
 		currWorld = worlds.get(0);
 		
@@ -69,7 +75,13 @@ public class Main extends PApplet {
 		float delta = getNewDelta();
 		clear();
 		background(0);
-		currWorld.update(delta);
+		
+		if (worldChangeDelay == 0) {
+			currWorld.update(delta);
+		} else {
+			worldChangeDelay--;
+		}
+		
 		currWorld.draw(g);
 		frame.setTitle(delta + "");
 	}
@@ -86,7 +98,9 @@ public class Main extends PApplet {
 		currWorld.playerRight = false;
 		currWorld.playerJump = false;
 		
+		soundPlayer.play("static");
 		currWorld = worlds.get(worldId);
+		worldChangeDelay = 100;
 	}
 	
 	public void keyReleased() {

@@ -26,6 +26,7 @@ import core.level.blocks.Block;
 import core.level.blocks.GrassBlock;
 import processing.core.PApplet;
 import processing.core.PGraphics;
+import sound.SoundPlayer;
 
 public class Player {
 	
@@ -41,11 +42,15 @@ public class Player {
 	private Body playerBody;
 	private Body playerFeet;
 	
-	public Player(float x, float y) {
+	private SoundPlayer sp;
+	
+	public Player(float x, float y, SoundPlayer sp) {
 		this.x = x;
 		this.y = y;
 		this.vx = 0;
 		this.vy = 0;
+		
+		this.sp = sp;
 	}
 	
 	public void draw(PGraphics g) {
@@ -66,6 +71,7 @@ public class Player {
 		
 		if (jump && footContacts != 0 && Math.abs(playerBody.getLinearVelocity().y) < .01) {
 			playerBody.applyLinearImpulse(new Vec2(0, -20), new Vec2(0, 0));
+			sp.play("jump");
 		}
 	}
 	
