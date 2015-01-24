@@ -14,5 +14,9 @@ public class GrassBlock extends Block {
 	public void setFrame(int frame) {
 		return;
 	}
+	
+	public boolean isSolid() {
+		return true;
+	}
 
 }

@@ -1,5 +1,29 @@
 package core.player;
 
+import org.jbox2d.callbacks.ContactImpulse;
+import org.jbox2d.callbacks.ContactListener;
+import org.jbox2d.collision.Manifold;
+import org.jbox2d.collision.shapes.CircleShape;
+import org.jbox2d.collision.shapes.PolygonShape;
+import org.jbox2d.common.Vec2;
+import org.jbox2d.dynamics.Body;
+import org.jbox2d.dynamics.BodyDef;
+import org.jbox2d.dynamics.BodyType;
+import org.jbox2d.dynamics.Fixture;
+import org.jbox2d.dynamics.FixtureDef;
+import org.jbox2d.dynamics.World;
+import org.jbox2d.dynamics.contacts.Contact;
+import org.jbox2d.dynamics.joints.Joint;
+import org.jbox2d.dynamics.joints.JointDef;
+import org.jbox2d.dynamics.joints.JointType;
+import org.jbox2d.dynamics.joints.WeldJoint;
+import org.jbox2d.dynamics.joints.WeldJointDef;
+import org.jbox2d.*;
+
+import core.WorldContactListener;
+import core.level.Level;
+import core.level.blocks.Block;
+import core.level.blocks.GrassBlock;
 import processing.core.PApplet;
 import processing.core.PGraphics;
 
@@ -8,9 +32,13 @@ public class Player {
 	public static final int WIDTH = 32, HEIGHT = 64;
 	public static final float MAX_X_SPEED = 5;
 	public static final float X_ACC = 1;
+	public static final int FEET_SENSOR_ID = 2;
 
 	private float x, y;
 	private float vx, vy;
+	
+	private Body playerBody;
+	private Body playerFeet;
 	
 	public Player(float x, float y) {
 		this.x = x;
@@ -25,39 +53,107 @@ public class Player {
 	}
 	
 	public void update(float delta) {
-		controlSpeed();
-		x += vx * delta;
-		y += vy * delta;
-//		vy += .5f;
-//		if (y > 100) {
-//			vy = -vy*.9f;
-//			y = 100;
-//		}
-		
+		playerBody.setLinearVelocity(new Vec2(playerBody.getLinearVelocity().x*.6f, playerBody.getLinearVelocity().y));
 	}
 	
-	public void controlSpeed() {
-		if (vx > MAX_X_SPEED)
-			vx = MAX_X_SPEED;
-		if (vx < -MAX_X_SPEED)
-			vx = -MAX_X_SPEED;
-	}
-	
-	public void doMovement(boolean right, boolean left, boolean jump) {
+	public void doMovement(boolean right, boolean left, boolean jump, int footContacts) {
 		if (right) {
-			vx += X_ACC;
+			playerBody.applyLinearImpulse(new Vec2(3, 0), new Vec2(0, 0));
 		} else if (left) {
-			vx -= X_ACC;
-		} else {
-			vx = vx * .9f;
+			playerBody.applyLinearImpulse(new Vec2(-3, 0), new Vec2(0, 0));
+		}
+		
+		if (jump && footContacts != 0 && Math.abs(playerBody.getLinearVelocity().y) < 0.01) {
+			playerBody.applyLinearImpulse(new Vec2(0, -20), new Vec2(0, 0));
 		}
 	}
 	
 	public float getX() {
-		return x;
+		return playerBody.getPosition().x*32;
 	}
 	
 	public float getY() {
-		return y;
+		return playerBody.getPosition().y*32;
 	}
+	
+	public void initPhysics(World world) {
+		
+		BodyDef bd = new BodyDef();
+		bd.position.set(x/32.0f, y/32.0f);
+		bd.type = BodyType.DYNAMIC;
+		bd.fixedRotation = true;
+
+		PolygonShape ps = new PolygonShape();
+		
+		ps.set(new Vec2[] {new Vec2(-.50f, 0),
+				new Vec2(-.49f, -.95f),
+				new Vec2(0f, -.99f),
+				new Vec2(.49f, -.95f),
+				new Vec2(.50f, 0),
+				new Vec2(.49f, .92f),
+				new Vec2(.3f, .99f),
+				new Vec2(-.3f, .99f),
+				new Vec2(-.49f, .92f)}, 8 );
+		
+//		CircleShape cs = new CircleShape();
+	//	cs.m_radius = 0.5f;
+		
+		FixtureDef fd = new FixtureDef();
+		fd.shape = ps;
+		fd.density = .5f;
+		fd.friction = 0f;
+		fd.restitution = 0f;
+		
+		playerBody = world.createBody(bd);
+		playerBody.createFixture(fd);
+		playerBody.setLinearDamping(1f);
+		playerBody.setUserData(101);
+		
+//		BodyDef bd2 = new BodyDef();
+//		bd2.position.set(x/32.0f, y/32.0f);
+//		bd2.type = BodyType.DYNAMIC;
+//		bd2.fixedRotation = true;
+//		bd2.userData = FEET_SENSOR_ID;
+//		
+//		PolygonShape ps2 = new PolygonShape();
+//		ps2.setAsBox(.5f, .1f);
+//		
+//		FixtureDef sens = new FixtureDef();
+//		sens.shape = ps2;
+//		sens.density = .01f;
+//		sens.friction = .1f;
+//		sens.isSensor = false;
+		
+		//body definition
+		BodyDef bd2 = new BodyDef();
+		bd.position.set(x/32.0f, y/32.0f);
+		bd2.type = BodyType.DYNAMIC;
+		 
+		//define shape of the body.
+		PolygonShape cs2 = new PolygonShape();
+		cs2.setAsBox(.4f, .05f, new Vec2(0, 1), 0);  
+		 
+		//define fixture of the body.
+		FixtureDef fd2 = new FixtureDef();
+		fd2.shape = cs2;
+		fd2.density = 0.1f;
+		fd2.friction = 0.3f;        
+		fd2.restitution = 0.5f;
+		fd2.isSensor = true;
+		fd2.userData = FEET_SENSOR_ID;
+
+		playerFeet = world.createBody(bd2);
+		playerFeet.createFixture(fd2);
+		playerFeet.setUserData(FEET_SENSOR_ID);
+		
+		WeldJointDef wd = new WeldJointDef();
+		wd.bodyA = playerBody;
+		wd.bodyB = playerFeet;
+        wd.localAnchorB.set(new Vec2(0, 0));
+        wd.collideConnected = false;
+        
+		world.createJoint(wd);
+		
+	}
+
 }

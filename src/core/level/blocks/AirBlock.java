@@ -13,5 +13,9 @@ public class AirBlock extends Block {
 	public void setFrame(int frame) {
 		return;
 	}
+	
+	public boolean isSolid() {
+		return false;
+	}
 
 }

@@ -1,7 +1,17 @@
 package core.level;
 
+import java.util.ArrayList;
+
+import org.jbox2d.collision.shapes.PolygonShape;
+import org.jbox2d.common.Vec2;
+import org.jbox2d.dynamics.BodyDef;
+import org.jbox2d.dynamics.BodyType;
+import org.jbox2d.dynamics.FixtureDef;
+import org.jbox2d.dynamics.World;
+
 import core.level.blocks.AirBlock;
 import core.level.blocks.Block;
+import core.level.blocks.GrassBlock;
 import processing.core.PGraphics;
 
 public class Level {
@@ -14,16 +24,14 @@ public class Level {
 		this.width = w;
 		this.height = h;
 		level = new Block[w][h];
-		AirBlock air = new AirBlock();
-		for (int x = 0; x < w; x++) {
-			for (int y = 0; y < h; y++) {
-				level[x][y] = air;
-			}
-		}
+		clear();
 	}
 	
 	public Block getBlock(int x, int y) {
-		return level[x][y];
+		if (x > 0 && y > 0 && x < width && y < height)
+			return level[x][y];
+		
+		return null;
 	}
 	
 	public void draw(PGraphics g, int x, int y, int w, int h) {
@@ -38,6 +46,44 @@ public class Level {
 							curBlock.draw(g);
 						g.popMatrix();
 					}
+				}
+			}
+		}
+	}
+
+	public void setBlock(int i, int j, GrassBlock gb) {
+		if (i >= 0 && j >= 0 && i < width && j < height)
+			level[i][j] = gb;
+	}
+	
+	public void clear() {
+		AirBlock air = new AirBlock();
+		for (int x = 0; x < width; x++) {
+			for (int y = 0; y < height; y++) {
+				level[x][y] = air;
+			}
+		}
+	}
+	
+	public void initPhysics(World world) {
+		
+		for (int i = 0; i < width; i++) {
+			for (int j = 0; j < height; j++) {
+				if (level[i][j].isSolid()) {
+					BodyDef bd = new BodyDef();
+					bd.position.set(i, j);
+					bd.type = BodyType.STATIC;
+					
+					PolygonShape ps = new PolygonShape();
+					ps.setAsBox(.49f, .49f);
+					
+					FixtureDef fd = new FixtureDef();
+					fd.shape = ps;
+					fd.density = .5f;
+					fd.friction = 0f;
+					fd.restitution = 0f;
+					
+					world.createBody(bd).createFixture(fd);
 				}
 			}
 		}
