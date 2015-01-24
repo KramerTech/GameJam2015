@@ -1,14 +1,11 @@
 package sound;
 
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map.Entry;
 
 import processing.core.PApplet;
-import ddf.minim.AudioOutput;
 import ddf.minim.AudioPlayer;
 import ddf.minim.Minim;
-import ddf.minim.ugens.Oscil;
-import ddf.minim.ugens.Waves;
 
 public class SoundPlayer {
 	Minim minim;
@@ -66,4 +63,11 @@ public class SoundPlayer {
 		}
 	}
 	
+	public void stopAllLoops() {
+		for (Entry<String, AudioPlayer> entry : playing.entrySet()) {
+			entry.getValue().close();
+		}
+
+		playing.clear();
+	}
 }
