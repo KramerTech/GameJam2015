@@ -1,0 +1,18 @@
+package core.level.blocks;
+
+import processing.core.PGraphics;
+
+public class GrassBlock extends Block {
+
+	@Override
+	public void draw(PGraphics g) {
+		g.fill(0, 255, 0);
+		g.rect(0, 0, 32, 32);
+	}
+
+	@Override
+	public void setFrame(int frame) {
+		return;
+	}
+
+}
