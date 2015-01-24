@@ -1,21 +1,28 @@
 package editor;
 
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseWheelEvent;
 import java.util.ArrayList;
 import java.util.List;
 
 import processing.core.PApplet;
+import processing.event.MouseEvent;
 
 public class LevelEditor extends PApplet {
 
 	private static final long serialVersionUID = 1L;
 	Bar bar;
+	World world;
 	
 	private List<Element> drawers;
 	
 	public LevelEditor() {
 		drawers = new ArrayList<Element>();
-		drawers.add(new Bar());
-		drawers.add(new World());
+		
+		world = new World();
+		drawers.add(world);
+		bar = new Bar();
+		drawers.add(bar);
 	}
 	
 	
@@ -23,29 +30,41 @@ public class LevelEditor extends PApplet {
 		size((int) (displayWidth * .45), (int) (displayHeight * .45));
 		frameRate(30);
 		colorMode(RGB, 255);
-		
+		frame.setResizable(true);
+		frame.setTitle("Level Editor");
+	}
+	
+	public void mouseWheelMoved(MouseWheelEvent e) {
+		for (Element element : drawers)
+			element.mouseWheel(e, this);
+	}
+	public void mouseEvent(MouseEvent e) {
+		for (Element element : drawers)
+			element.mouse(e, this);
 	}
 	
 	
-	private void mouseManager(int x, int y, int mode) {
-		for (Element e : drawers) {
-			if (e.contains(x, y, mode, this))
-				return;
+	public int getBlock() {
+		return bar.getBlock();
+	}
+	
+	
+	public void keyPressed(KeyEvent e) {
+		char key = e.getKeyChar();
+		if (key >= '1' && key <= '9')
+			bar.setBlock(key - '1');
+		switch (key) {
+		case ' ': world.undo(); break;
+		case 'r': world.noScroll(); break;
 		}
 	}
 	
 	
-	public void mouseMoved() {
-		mouseManager(mouseX, mouseY, 4);
-	}
-	
-	public void mousePressed() {
-		mouseManager(mouseX, mouseY, 0);
-	}
-	
-	public void mouseReleased() {
-		mouseManager(mouseX, mouseY, 1);
-	}
+	@Override
+	public void mouseDragged(MouseEvent e) {mouseEvent(e);}
+	public void mousePressed(MouseEvent e) {mouseEvent(e);}
+	public void mouseReleased(MouseEvent e) {mouseEvent(e);}
+	public void mouseMoved(MouseEvent e) {mouseEvent(e);}
 	
 	
 	public void draw() {
