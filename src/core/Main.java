@@ -35,14 +35,15 @@ public class Main extends PApplet {
 	
 	public long lastTime;
 	
-	public static PImage spriteL, spriteR, bunnyL, bunnyR;
+	public static PImage spriteL, spriteR, bunnyL, bunnyR, turtleL, turtleR;
 
 	public void setup() {
 		spriteR = loadImage("res/img/upr.png");
 		spriteL = loadImage("res/img/upl.png");
 		bunnyR = loadImage("res/img/bunnyr.png");
 		bunnyL = loadImage("res/img/bunnyl.png");
-		
+		turtleL = loadImage("res/img/turtlel.png");
+		turtleR = loadImage("res/img/turtler.png");
 		float scale = .7f;
 		size((int) (displayWidth * scale), (int) (displayHeight * scale), P2D);
 		if (frame != null) {
