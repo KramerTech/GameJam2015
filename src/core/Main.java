@@ -43,13 +43,15 @@ public class Main extends PApplet {
 	
 	private Random randGen;
 	
-	public static PImage spriteL, spriteR, bunnyL, bunnyR;
+	public static PImage spriteL, spriteR, bunnyL, bunnyR, turtleL, turtleR;
 
 	public void setup() {
 		spriteR = loadImage("res/img/upr.png");
 		spriteL = loadImage("res/img/upl.png");
 		bunnyR = loadImage("res/img/bunnyr.png");
 		bunnyL = loadImage("res/img/bunnyl.png");
+		turtleR = loadImage("res/img/turtler.png");
+		turtleL = loadImage("res/img/turtlel.png");
 		
 		randGen = new Random();
 		

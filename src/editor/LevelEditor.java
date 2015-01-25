@@ -73,15 +73,14 @@ public class LevelEditor extends PApplet {
 		case 't':
 			JFrame f = new JFrame();
 
-			Main sim = new Main(world.data(), 0, 0);
+			Main sim = new Main(world.data(), 0);
 			f.add(sim);
 			f.setSize(600, 600);
 			f.setVisible(true);
 			sim.init();
 			break;
 		default:
-			//if (sim == null || sim.finished)
-			//	super.keyPressed(e);
+			super.keyPressed(e);
 		}
 	}
 	
