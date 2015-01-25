@@ -9,6 +9,7 @@ import core.enemy.BunnyEnemy;
 import core.enemy.Enemy;
 import core.enemy.TurtleEnemy;
 import core.level.Level;
+import core.level.blocks.EndFlagBlock;
 import core.player.Player;
 import core.projectile.Projectile;
 
@@ -42,6 +43,10 @@ public class WorldContactListener implements ContactListener {
 		
 		if (hasID(contact, Player.PLAYER_SENSOR_ID, TurtleEnemy.SENSOR_ID)) {
 			((Player) getDataFromID(contact, Player.PLAYER_SENSOR_ID).actor).kill();
+		}
+		
+		if (hasID(contact, Player.PLAYER_SENSOR_ID, EndFlagBlock.SENSOR_ID)) {
+			((Player) getDataFromID(contact, Player.PLAYER_SENSOR_ID).actor).win();
 		}
 	}
 
