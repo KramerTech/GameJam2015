@@ -5,6 +5,9 @@ import java.awt.event.MouseWheelEvent;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JFrame;
+
+import core.Main;
 import core.level.blocks.Block;
 import processing.core.PApplet;
 import processing.event.MouseEvent;
@@ -65,7 +68,26 @@ public class LevelEditor extends PApplet {
 		case 's': e.consume(); setTitle(Save.save(world)); break;
 		case 'a': e.consume(); setTitle(Save.saveAs(world)); break;
 		case 'o': e.consume(); setTitle(Save.Load(world)); break;
-		default: super.keyPressed(e);
+		case 'd': world.drag(true); break;
+		case 't':
+			JFrame f = new JFrame();
+			Main sim = new Main(world.data());
+			f.add(sim);
+			f.setSize(600, 600);
+			f.setVisible(true);
+			sim.init();
+			break;
+		default:
+			super.keyPressed(e);
+		}
+	}
+	
+	
+	public void keyReleased(KeyEvent e) {
+		char key = e.getKeyChar();
+		switch (key) {
+		case 'd': world.drag(false); break;
+		default: super.keyReleased(e);
 		}
 	}
 	

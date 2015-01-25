@@ -1,5 +1,6 @@
 package core;
 
+import java.io.File;
 import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
@@ -8,6 +9,7 @@ import processing.core.PApplet;
 import processing.core.PImage;
 import sound.SoundPlayer;
 import core.level.Loader;
+import core.level.blocks.Block;
 
 public class Main extends PApplet {
 
@@ -15,6 +17,13 @@ public class Main extends PApplet {
 
 	public static void main(String args[]) {
 		PApplet.main(new String[] {"core.Main" });
+	}
+	
+	public Main() {}
+	
+	private ArrayList<ArrayList<Block>> data = null;
+	public Main(ArrayList<ArrayList<Block>> data) {
+		this.data = data;
 	}
 	
 	ArrayList<GameWorld> worlds;
@@ -46,10 +55,17 @@ public class Main extends PApplet {
 		
 		soundPlayer = new SoundPlayer(this);
 		
+		//Test mode
 		worlds = new ArrayList<GameWorld>();
-		worlds.add(Loader.load("level1", soundPlayer));
-		worlds.add(Loader.load("jason", soundPlayer));
 
+		if (data != null) {
+			worlds.add(Loader.load(data, soundPlayer));
+		} else {
+			for (int i = 0; i < 100; i++) {
+				if (!new File(Loader.SAVES + "level" + i).exists()) continue;
+				worlds.add(Loader.load("level" + i, soundPlayer));
+			}
+		}
 		
 		currWorld = worlds.get(0);
 		
@@ -78,7 +94,6 @@ public class Main extends PApplet {
 		}
 		
 		currWorld.draw(g);
-		frame.setTitle(delta + "");
 	}
 	
 	public float getNewDelta() {

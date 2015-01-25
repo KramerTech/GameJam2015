@@ -19,6 +19,11 @@ public class Block {
 	}
 	
 	
+	public Property[] getProperties() {
+		return properties;
+	}
+	
+	
 	public static Block getBlock(Property[] props) {
 		if (blocks.containsKey(props))
 			return blocks.get(props);
