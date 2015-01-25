@@ -61,7 +61,7 @@ public class Main extends PApplet {
 			worlds.add(Loader.load(data, soundPlayer));
 		} else {
 			for (int i = 0; i < 100; i++) {
-				if (!new File(Loader.SAVES + "level" + i).exists()) continue;
+				if (!new File(Loader.SAVES + "level" + i + ".lvl").exists()) continue;
 				worlds.add(Loader.load("level" + i, soundPlayer));
 			}
 		}

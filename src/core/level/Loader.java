@@ -18,9 +18,11 @@ public class Loader {
 	public static final String SAVES = "res/levels/";
 	
 	public static void addBlock(Level level, ArrayList<Vec3> entities, int x, int y, Property[] p) {
-		 if (p[Property.BLOCK] != null) {
-     		level.setBlock(x, y, Block.getBlock(p));
-		 }
+		if (p[Property.BLOCK] != null) {
+			level.setBlock(x, y, Block.getBlock(p));
+		} else if (p[Property.ID] != null) {
+			entities.add(new Vec3(x * 32, y * 32, p[Property.ID].value));
+		}
 	}
 	
 	public static GameWorld load(String name, SoundPlayer soundPlayer) {
@@ -63,7 +65,9 @@ public class Loader {
         in.close();
 
 		GameWorld build = new GameWorld(level, new Player(playerx, playery, soundPlayer, null));
-		//build
+		for (Vec3 e : entities) {
+			build.entities.add(EnitityGenerator.generate(e, build.world));
+		}
 		
 		return build;
 	}
@@ -78,23 +82,25 @@ public class Loader {
 		for (int y = 0; y < data.size(); y++) {
 			ArrayList<Block> row = data.get(y);
 			if (row == null) continue;
+			int dy = data.size() - y - 1;
 			for (int x = 0; x < row.size(); x++) {
 				Block b = row.get(x);
 				if (b == null) continue;
 		    	if (b.getProperties()[Property.PLAYER] != null) {
 		    		playerx = x * 32;
-		    		playery = (data.size() - y - 1) * 32;
+		    		playery = dy * 32;
 		    		continue;
 		    	} else {
-		    		addBlock(level, entities, x, (data.size() - y - 1), b.getProperties());
+		    		addBlock(level, entities, x, dy, b.getProperties());
 		    	}
 			}
 		}
 		
 		GameWorld build = new GameWorld(level, new Player(playerx, playery, soundPlayer, null));
 		
-		for (Vec3 e : entities)
-			EnitityGenerator.generate(e, build.world);
+		for (Vec3 e : entities) {
+			build.entities.add(EnitityGenerator.generate(e, build.world));
+		}
 		
 		return build;
 	}
