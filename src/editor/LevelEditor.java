@@ -5,6 +5,7 @@ import java.awt.event.MouseWheelEvent;
 import java.util.ArrayList;
 import java.util.List;
 
+import core.level.blocks.Block;
 import processing.core.PApplet;
 import processing.event.MouseEvent;
 

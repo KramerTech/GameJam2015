@@ -1,19 +1,15 @@
 package core.level;
 
-import java.util.ArrayList;
-
 import org.jbox2d.collision.shapes.PolygonShape;
-import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.BodyDef;
 import org.jbox2d.dynamics.BodyType;
 import org.jbox2d.dynamics.FixtureDef;
 import org.jbox2d.dynamics.World;
 
-import core.contactlistener.SensorData;
-import core.level.blocks.AirBlock;
-import core.level.blocks.Block;
-import core.level.blocks.GrassBlock;
 import processing.core.PGraphics;
+import core.contactlistener.SensorData;
+import core.level.blocks.Block;
+import core.level.blocks.Property;
 
 public class Level {
 	
@@ -54,16 +50,15 @@ public class Level {
 		}
 	}
 
-	public void setBlock(int i, int j, GrassBlock gb) {
+	public void setBlock(int i, int j, Block gb) {
 		if (i >= 0 && j >= 0 && i < width && j < height)
 			level[i][j] = gb;
 	}
 	
 	public void clear() {
-		AirBlock air = new AirBlock();
 		for (int x = 0; x < width; x++) {
 			for (int y = 0; y < height; y++) {
-				level[x][y] = air;
+				level[x][y] = Block.AIR;
 			}
 		}
 	}
@@ -72,7 +67,7 @@ public class Level {
 		
 		for (int i = 0; i < width; i++) {
 			for (int j = 0; j < height; j++) {
-				if (level[i][j].isSolid()) {
+				if (level[i][j].get(Property.COLLIDES) == 1) {
 					BodyDef bd = new BodyDef();
 					bd.position.set(i, j);
 					bd.type = BodyType.STATIC;

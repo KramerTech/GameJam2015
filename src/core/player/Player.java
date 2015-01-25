@@ -1,38 +1,20 @@
 package core.player;
 
-import org.jbox2d.callbacks.ContactImpulse;
-import org.jbox2d.callbacks.ContactListener;
-import org.jbox2d.collision.Manifold;
-import org.jbox2d.collision.shapes.CircleShape;
 import org.jbox2d.collision.shapes.PolygonShape;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.Body;
 import org.jbox2d.dynamics.BodyDef;
 import org.jbox2d.dynamics.BodyType;
-import org.jbox2d.dynamics.Fixture;
 import org.jbox2d.dynamics.FixtureDef;
 import org.jbox2d.dynamics.World;
-import org.jbox2d.dynamics.contacts.Contact;
-import org.jbox2d.dynamics.joints.Joint;
-import org.jbox2d.dynamics.joints.JointDef;
-import org.jbox2d.dynamics.joints.JointType;
-import org.jbox2d.dynamics.joints.WeldJoint;
-import org.jbox2d.dynamics.joints.WeldJointDef;
-import org.jbox2d.*;
 
-import core.GameWorld;
-import core.Main;
-import core.contactlistener.SensorData;
-import core.contactlistener.WorldContactListener;
-import core.level.Level;
-import core.level.blocks.Block;
-import core.level.blocks.GrassBlock;
-import core.projectile.BounceyBall;
-import core.projectile.Projectile;
-import processing.core.PApplet;
 import processing.core.PGraphics;
 import processing.core.PImage;
 import sound.SoundPlayer;
+import core.GameWorld;
+import core.Main;
+import core.contactlistener.SensorData;
+import core.projectile.BounceyBall;
 
 public class Player {
 	

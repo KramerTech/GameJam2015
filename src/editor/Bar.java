@@ -3,6 +3,7 @@ package editor;
 import java.awt.event.MouseWheelEvent;
 import java.util.ArrayList;
 
+import core.level.blocks.Block;
 import processing.core.PApplet;
 import processing.event.MouseEvent;
 
@@ -16,23 +17,13 @@ public class Bar implements Element {
 	
 	private int mouseOver = -1;
 	
-	private int[] COLORS = {
-			0xff00ff00,
-			0xffeac300,
-			0xff6b2212,
-			0xffa0a0a0,
-			0xff000000,
-			0xffffffff,
-	};
-	
+	private ArrayList<Block> blocks;
 	
 	public Bar() {
-		colors = new ArrayList<Integer>();
-		for (int i : COLORS)
-			colors.add(i);
+		//TODO load block types from file
 	}
 	
-	private Block block = new Block(COLORS[0]);
+	private Block block;
 	private int selector = 0; 
 	
 	public void draw(PApplet g) {
@@ -98,7 +89,7 @@ public class Bar implements Element {
 	public void setBlock(int i) {
 		if (i >= 0 && i < colors.size()) {
 			selector = i;
-			block = new Block(colors.get(i));
+			block = blocks.get(i);
 		}
 	}
 	

@@ -1,4 +1,4 @@
-package editor;
+package core.level.blocks;
 
 public class Property {
 

@@ -10,6 +10,9 @@ import java.util.Scanner;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 
+import core.level.blocks.Block;
+import core.level.blocks.Property;
+
 public class Save {
 
 	public static final String SAVE_LOC = "res/levels/";
@@ -81,6 +84,7 @@ public class Save {
             	e.printStackTrace();
             	return null;
             }
+            world.saved = true;
 		}
 		return save;
 	}

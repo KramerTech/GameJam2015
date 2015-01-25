@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.util.Stack;
 
+import core.level.blocks.Block;
+import core.level.blocks.Property;
 import processing.core.PApplet;
 import processing.event.MouseEvent;
 
@@ -220,7 +222,7 @@ public class World implements Element {
 	
 	public void bite(PApplet g, Block block, int x, int y) {
 		if (block == null) return;
-		g.fill(block.get(Property.COLOR).value);
+		g.fill(block.getProperty(Property.COLOR).value);
 		g.rect(x - scrollx % zoom, y + scrolly % zoom, zoom, zoom);
 	}
 
@@ -253,7 +255,7 @@ public class World implements Element {
 			int miny = Math.max(y, oy);
 			x = (Math.max(x, ox) - minx + 1) * zoom;
 			y = (miny + 1 - Math.min(y, oy)) * zoom;
-			g.fill(block == null ? 0x88000000: block.get(Property.COLOR).value);
+			g.fill(block == null ? 0x88000000: block.getProperty(Property.COLOR).value);
 			g.rect(getX(minx, g), getY(miny, g), x, y);
 		}
 		

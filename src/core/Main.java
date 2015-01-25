@@ -5,16 +5,12 @@ import java.util.ArrayList;
 import javax.swing.ImageIcon;
 
 import org.jbox2d.common.Vec2;
-import org.jbox2d.dynamics.World;
 
-import core.enemy.BunnyEnemy;
-import core.enemy.TurtleEnemy;
-import core.level.Level;
-import core.level.blocks.GrassBlock;
-import core.player.Player;
 import processing.core.PApplet;
 import processing.core.PImage;
 import sound.SoundPlayer;
+import core.enemy.BunnyEnemy;
+import core.enemy.TurtleEnemy;
 
 public class Main extends PApplet {
 
@@ -54,29 +50,8 @@ public class Main extends PApplet {
 		soundPlayer = new SoundPlayer(this);
 		
 		worlds = new ArrayList<GameWorld>();
-		
-		Level l = new Level(200, 30);
-		GrassBlock gb = new GrassBlock();
-		for (int i = 0; i < 100; i++) {
-			l.setBlock(i, 16, gb);
-			l.setBlock(i, 0, gb);
-			l.setBlock(0, i, gb);
-			l.setBlock(100, i, gb);
-		}
-		l.setBlock(5, 4, gb);
-		
-		for (int i = 0; i < 5; i++) {
-			l.setBlock(i+3, 15, gb);
-			l.setBlock(i+9, 13, gb);
-		}
-		
-		for (int x = 0; x < 6; x++) {
-			l.setBlock(x+20, 16-x, gb);
-			l.setBlock(30-x, 16-x, gb);
-		}
-		
-		worlds.add(new GameWorld(l, new Player(100,100, soundPlayer, null)));
-		worlds.add(new GameWorld(l, new Player(100,150, soundPlayer, null)));
+		//worlds.add(new GameWorld(l, new Player(100,100, soundPlayer, null)));
+
 		
 		currWorld = worlds.get(0);
 		
