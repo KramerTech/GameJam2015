@@ -35,7 +35,7 @@ public class Main extends PApplet {
 	SoundPlayer soundPlayer;
 	
 	float worldChangeDelay = 0;
-	float worldChangeTimer = 60 * 10;
+	float worldChangeTimer = 60 * 100;
 	
 	int testBgColor;
 	
