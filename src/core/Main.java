@@ -73,6 +73,7 @@ public class Main extends PApplet {
 		worlds = new ArrayList<GameWorld>();
 
 		if (data != null) {
+			System.out.println(data);
 			worlds.add(Loader.load(data, soundPlayer));
 		} else {
 			File levelDir = new File(Loader.SAVES);
