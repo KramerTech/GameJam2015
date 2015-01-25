@@ -7,6 +7,7 @@ import javax.swing.ImageIcon;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.World;
 
+import core.enemy.TurtleEnemy;
 import core.level.Level;
 import core.level.blocks.GrassBlock;
 import core.player.Player;
@@ -77,6 +78,8 @@ public class Main extends PApplet {
 		worlds.add(new GameWorld(l, new Player(100,150, soundPlayer, null)));
 		
 		currWorld = worlds.get(0);
+		
+		worlds.get(0).enemies.add(new TurtleEnemy(new Vec2(500, 100), worlds.get(0).world));
 		
 		lastTime = this.millis();
 	}

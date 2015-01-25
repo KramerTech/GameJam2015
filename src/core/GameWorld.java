@@ -8,6 +8,7 @@ import org.jbox2d.dynamics.World;
 
 import processing.core.PGraphics;
 import core.contactlistener.WorldContactListener;
+import core.enemy.Enemy;
 import core.level.Level;
 import core.player.Player;
 import core.projectile.BounceyBall;
@@ -18,7 +19,7 @@ public class GameWorld {
 	private Level level;
 	private Player player;
 	
-	private World world;
+	public World world;
 	
 	private WorldContactListener worldCL;
 	
@@ -27,6 +28,7 @@ public class GameWorld {
 	public boolean playerLeft, playerRight, playerJump, playerShoot;
 	
 	public ArrayList<Projectile> projectiles;
+	public ArrayList<Enemy> enemies;
 	
 	public GameWorld(Level level, Player player) {
 		this.level = level;
@@ -47,6 +49,7 @@ public class GameWorld {
 		level.initPhysics(world);
 		
 		projectiles = new ArrayList<Projectile>();
+		enemies = new ArrayList<Enemy>();
 	}
 	
 	public void draw(PGraphics g) {
@@ -78,6 +81,10 @@ public class GameWorld {
 			for (Projectile p : projectiles) {
 				p.draw(g);
 			}
+			
+			for (Enemy e : enemies) {
+				e.draw(g);
+			}
 		g.popMatrix();
 	}
 	
@@ -89,11 +96,18 @@ public class GameWorld {
 		playerShoot = false;
 		player.update(delta);
 		
-		Iterator<Projectile> i = projectiles.iterator();
-		while (i.hasNext()) {
-			Projectile p = i.next();
+		Iterator<Projectile> i1 = projectiles.iterator();
+		while (i1.hasNext()) {
+			Projectile p = i1.next();
 			if (p.update(delta))
-				i.remove();
+				i1.remove();
+		}
+		
+		Iterator<Enemy> i2 = enemies.iterator();
+		while (i2.hasNext()) {
+			Enemy e = i2.next();
+			if (e.update(delta))
+				i2.remove();
 		}
 	}
 	
