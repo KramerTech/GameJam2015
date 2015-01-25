@@ -2,6 +2,7 @@ package core;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Random;
 
 import javax.swing.ImageIcon;
 
@@ -33,10 +34,14 @@ public class Main extends PApplet {
 	GameWorld currWorld;
 	SoundPlayer soundPlayer;
 	
-	int worldChangeDelay = 0;
+	float worldChangeDelay = 0;
+	float worldChangeTimer = 60 * 10;
+	
 	int testBgColor;
 	
 	public long lastTime;
+	
+	private Random randGen;
 	
 	public static PImage spriteL, spriteR, bunnyL, bunnyR;
 
@@ -45,6 +50,8 @@ public class Main extends PApplet {
 		spriteL = loadImage("res/img/upl.png");
 		bunnyR = loadImage("res/img/bunnyr.png");
 		bunnyL = loadImage("res/img/bunnyl.png");
+		
+		randGen = new Random();
 		
 		float scale = .7f;
 		size((int) (displayWidth * scale), (int) (displayHeight * scale), P2D);
@@ -66,10 +73,18 @@ public class Main extends PApplet {
 		if (data != null) {
 			worlds.add(Loader.load(data, soundPlayer, testBgColor));
 		} else {
-			for (int i = 0; i < 100; i++) {
-				if (!new File(Loader.SAVES + "level" + i + ".lvl").exists()) continue;
-				System.out.println("Loading level " + i);
-				worlds.add(Loader.load("level" + i, soundPlayer));
+//			for (int i = 0; i < 100; i++) {
+//				if (!new File(Loader.SAVES + "level" + i + ".lvl").exists()) continue;
+//				System.out.println("Loading level " + i);
+//				worlds.add(Loader.load("level" + i, soundPlayer));
+//			}
+			
+			File levelDir = new File(Loader.SAVES);
+			File[] levels = levelDir.listFiles();
+			
+			for (File level : levels) {
+				System.out.println("Loading level " + level.getName());
+				worlds.add(Loader.load(level.getName(), soundPlayer));
 			}
 		}
 		
@@ -101,11 +116,21 @@ public class Main extends PApplet {
 		//g.scale(.5f);
 		background(0, 216, 216);
 		
-		if (worldChangeDelay == 0) {
+		if (worldChangeDelay <= 0) {
+			worldChangeDelay = 0;
 			currWorld.update(delta);
 			
 		} else {
-			worldChangeDelay--;
+			worldChangeDelay -= delta;
+		}
+		
+		if (worldChangeTimer <= 0) {
+			int newWorld = randGen.nextInt(worlds.size());
+			changeWorld(newWorld);
+			worldChangeTimer = 60 * 10;
+		} else {
+			worldChangeTimer -= delta;
+			System.out.println(worldChangeTimer);
 		}
 		
 		currWorld.draw(g);
@@ -141,7 +166,7 @@ public class Main extends PApplet {
 			break;
 		}
 		
-		worldChangeDelay = 100;
+		worldChangeDelay = 30;
 	}
 	
 	

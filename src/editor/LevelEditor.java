@@ -80,8 +80,8 @@ public class LevelEditor extends PApplet {
 			sim.init();
 			break;
 		default:
-			if (sim == null || sim.finished)
-				super.keyPressed(e);
+			//if (sim == null || sim.finished)
+			//	super.keyPressed(e);
 		}
 	}
 	
