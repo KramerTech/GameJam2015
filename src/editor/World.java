@@ -15,16 +15,9 @@ public class World implements Element {
 	
 	int zoom = 32;
 	
-	private boolean lock;
-	int block;
+	Block block;
 	
-	private String save;
-	
-	
-	public void lock() {lock = true;}
-	public void unlock() {lock = false;}
-	
-	ArrayList<ArrayList<Integer>> world;
+	ArrayList<ArrayList<Block>> world;
 	
 	Random r = new Random();
 	
@@ -39,11 +32,11 @@ public class World implements Element {
 		public void undo() {
 			while (!moves.isEmpty()) {
 				XYC move = moves.pop();
-				add(move.x, move.y, move.c);
+				add(move.x, move.y, move.b);
 			}
 		}
-		public void move(int x, int y, int c) {
-			moves.push(new XYC(x, y, c));
+		public void move(int x, int y, Block b) {
+			moves.push(new XYC(x, y, b));
 		}
 	}
 	
@@ -56,22 +49,23 @@ public class World implements Element {
 	
 	
 	class XYC {
-		public XYC(int x, int y, int c) {
+		public XYC(int x, int y, Block b) {
 			this.x = x;
-			this.c = c;
+			this.b = b;
 			this.y = y;
 		}
-		public int x, y, c;
+		public int x, y;
+		public Block b;
 		public boolean equals(XYC other) {
-			return (x == other.x && y == other.y && c == other.c);
+			return (x == other.x && y == other.y && b == other.b);
 		}
-		public boolean equals(int x, int y, int c) {
-			return (this.x == x && this.y == y && this.c == c);
+		public boolean equals(int x, int y, Block b) {
+			return (this.x == x && this.y == y && this.b == b);
 		}
 	}
 	
 	public World() {
-		world = new ArrayList<ArrayList<Integer>>();
+		world = new ArrayList<ArrayList<Block>>();
 	}
 	
 	
@@ -100,7 +94,6 @@ public class World implements Element {
 	private boolean rect = false;
 	private int ox, oy;
 	public synchronized void mouse(MouseEvent e, PApplet g) {
-		if (lock) return;
 		if (e.getAction() == MouseEvent.RELEASE) {
 			if (e.getButton() == 3) {
 				grab = false;
@@ -130,10 +123,10 @@ public class World implements Element {
 		
 		if (g.mouseX < g.width / 10) return;
 		if (e.getAction() == MouseEvent.PRESS) {
-			switch (e.getButton()) {
-			case 3: grab = true; break;
-			case 37:
-				block = ((LevelEditor) g).getBlock();
+			if (e.getButton() == 3) {
+				grab = true;
+			} else {
+				block = e.getButton() == 37 ? ((LevelEditor) g).getBlock() : null;
 				current = new Move();
 				if (e.isShiftDown()) {
 					select = false;
@@ -144,20 +137,6 @@ public class World implements Element {
 					select = true;
 					add(getX(g), getY(g), block);
 				}
-				break;
-			case 39:
-				block = 0;
-				current = new Move();
-				if (e.isShiftDown()) {
-					select = false;
-					rect = true;
-					ox = getX(g);
-					oy = getY(g);
-				} else {
-					select = true;
-					add(getX(g), getY(g), block);
-				}
-				break;
 			}
 		}
 		if ( e.getAction() == MouseEvent.DRAG) {
@@ -194,39 +173,49 @@ public class World implements Element {
 	}
 	
 
-	public void add(int x, int y, int block) {
-		if (x < 0 || y < 0) return;
-		ArrayList<Integer> row;
-		if (y < world.size()) {
-			row = world.get(y);
-			if (row == null) {
-				row = new ArrayList<Integer>();
-				world.set(y, row);
+	public void add(int x, int y, Block block) {
+		System.out.println(x + " " + y);
+		synchronized (world) {
+			if (x < 0 || y < 0) return;
+			ArrayList<Block> row;
+			if (y < world.size()) {
+				row = world.get(y);
+				if (row == null) {
+					row = new ArrayList<Block>();
+					world.set(y, row);
+				}
+			} else {
+				for (int i = y - world.size(); i > 0; i--)
+					world.add(null);
+				row = new ArrayList<Block>();
+				world.add(row);
 			}
-		} else {
-			for (int i = y - world.size(); i > 0; i--)
-				world.add(null);
-			row = new ArrayList<Integer>();
-			world.add(row);
-		}
-		
-		if (x < row.size()) {
-			if (current != null && row.get(x) != block)
-				current.move(x, y, row.get(x));
-			row.set(x, block);
-		} else {
-			for (int i = x - row.size(); i > 0; i--)
-				row.add(0);
-			row.add(block);
-			if (current != null)
-				current.move(x, y, 0);
+			
+			if (x < row.size() && canOverwrite(row.get(x))) {
+				if (current != null)
+					current.move(x, y, row.get(x));
+				row.set(x, block);
+			} else {
+				for (int i = x - row.size(); i > 0; i--)
+					row.add(null);
+				row.add(block);
+				if (current != null)
+					current.move(x, y, null);
+			}
 		}
 	}
 	
 	
-	public void bite(PApplet g, int block, int x, int y) {
-		if (block == 0) return;
-		g.fill(block);
+	private boolean canOverwrite(Block o) {
+		if (block == o) return false;
+		if (o == null) return true;
+		return true;
+	}
+	
+	
+	public void bite(PApplet g, Block block, int x, int y) {
+		if (block == null) return;
+		g.fill(block.color);
 		g.rect(x - scrollx % zoom, y + scrolly % zoom, zoom, zoom);
 	}
 
@@ -238,13 +227,13 @@ public class World implements Element {
 			y += zoom;
 			if (i >= world.size()) break;
 			if (i < 0) continue;
-			ArrayList<Integer> row = world.get(i);
+			ArrayList<Block> row = world.get(i);
 			if (row == null) continue;
 			int x = 0;
 			for (int j = scrollx / zoom; ; j++) {
 				if (j >= row.size()) break;
 				if (j < 0) {x+=zoom; continue;}
-				int block = row.get(j);
+				Block block = row.get(j);
 				if (x > g.width + zoom) break;
 				bite(g, block, x + g.width / 10, g.height - y);
 				x += zoom;
@@ -259,7 +248,7 @@ public class World implements Element {
 			int miny = Math.max(y, oy);
 			x = (Math.max(x, ox) - minx + 1) * zoom;
 			y = (miny + 1 - Math.min(y, oy)) * zoom;
-			g.fill(block);
+			g.fill(block.color);
 			g.rect(getX(minx, g), getY(miny, g), x, y);
 		}
 		
@@ -281,5 +270,14 @@ public class World implements Element {
 		scrollx = 0;
 	}
 	
+	
+	public boolean safe() {
+		return !(rect || select);
+	}
+	
+	
+	public ArrayList<ArrayList<Block>> data() {
+		return world;
+	}
 	
 }

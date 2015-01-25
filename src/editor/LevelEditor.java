@@ -44,7 +44,7 @@ public class LevelEditor extends PApplet {
 	}
 	
 	
-	public int getBlock() {
+	public Block getBlock() {
 		return bar.getBlock();
 	}
 	
@@ -56,8 +56,9 @@ public class LevelEditor extends PApplet {
 		switch (key) {
 		case ' ': world.undo(); break;
 		case 'r': world.noScroll(); break;
-		case 's': world.save();
-		case 'a': world.saveAs();
+		case 's': Save.save(world);
+		case 'a': Save.saveAs(world);
+		default: super.keyPressed(e);
 		}
 	}
 	

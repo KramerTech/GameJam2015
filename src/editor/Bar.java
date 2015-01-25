@@ -32,7 +32,7 @@ public class Bar implements Element {
 			colors.add(i);
 	}
 	
-	private int block = 0xff00ff00;
+	private Block block = new Block(COLORS[0]);
 	private int selector = 0; 
 	
 	public void draw(PApplet g) {
@@ -91,14 +91,14 @@ public class Bar implements Element {
 	}
 
 	
-	public int getBlock() {
+	public Block getBlock() {
 		return block;
 	}
 
 	public void setBlock(int i) {
 		if (i >= 0 && i < colors.size()) {
 			selector = i;
-			block = colors.get(i);
+			block = new Block(colors.get(i));
 		}
 	}
 	
