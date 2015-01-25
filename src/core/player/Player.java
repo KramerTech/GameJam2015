@@ -36,6 +36,8 @@ public class Player {
 	
 	private SoundPlayer sp;
 	
+	private boolean dead;
+	
 	public Player(float x, float y, SoundPlayer sp, GameWorld world) {
 		this.world = world;
 		this.x = x;
@@ -151,7 +153,7 @@ public class Player {
 		fd2.friction = 0.3f;        
 		fd2.restitution = 0.5f;
 		fd2.isSensor = true;
-		fd2.userData = new SensorData(FEET_SENSOR_ID);
+		fd2.userData = new SensorData(FEET_SENSOR_ID, this);
 
 		playerBody.createFixture(fd2);
 		
@@ -166,6 +168,11 @@ public class Player {
 //        wd.collideConnected = false;
 //        
 //		world.createJoint(wd);
+		
+	}
+	
+	public void kill() {
+		dead = true;
 		
 	}
 

@@ -5,6 +5,7 @@ public class SensorSwitch implements TouchListener {
 	public int[] detectionID;
 	public int touches;
 	public SensorData data;
+	public SensorData lastData;
 	
 	public SensorSwitch(int[] detectionID) {
 		this.detectionID = detectionID;
@@ -22,6 +23,7 @@ public class SensorSwitch implements TouchListener {
 			if (b.value == detectionID[i])
 				touches++;
 		}
+		lastData = b;
 	}
 
 	@Override
