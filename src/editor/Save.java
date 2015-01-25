@@ -66,9 +66,14 @@ public class Save {
             	Scanner in = new Scanner(new File(SAVE_LOC + save));
             	Scanner line;
             	world.data().clear();
-            	in.nextLine();
+            	System.out.println(in.nextLine());
+            	Scanner bgScanner = new Scanner(in.nextLine());
+            	
+            	int bgType = bgScanner.nextInt();
+            	
             	while (in.hasNextInt()) {
             		line = new Scanner(in.nextLine());
+            		
 	            	Property[] p = new Property[Property.PROPERTY_COUNT];
 	            	int x = line.nextInt();
 	            	int y = line.nextInt();
@@ -119,6 +124,7 @@ public class Save {
 				maxx++;
 				BufferedWriter writer = new BufferedWriter(new PrintWriter(SAVE_LOC + save));
 				writer.write(maxx + " " + maxy);
+				writer.write("0");
 				for (int y = 0; y < maxy; y++) {
 					ArrayList<Block> row = data.get(y);
 					if (row == null) continue;

@@ -15,7 +15,7 @@ import core.projectile.Projectile;
 
 public class GameWorld {
 
-	private Level level;
+	public Level level;
 	public Player player;
 	
 	public World world;
@@ -74,6 +74,7 @@ public class GameWorld {
 			int renderWidth = 40;
 		
 			level.draw(g, (int)(-camX/32-renderWidth/2), (int) (-camY/32-renderHeight/2), renderWidth, renderHeight);
+			
 			drawPlayer(g);
 			
 			for (Entity e : entities) {

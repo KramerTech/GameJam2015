@@ -24,7 +24,7 @@ public class Bar implements Element {
 	public Bar() {
 		blocks = new ArrayList<Block>();
 		try {
-			Scanner in = new Scanner(new File("res/pallete"));
+			Scanner in = new Scanner(new File("res/palletes/blocks"));
 			Scanner line;
 			while (in.hasNextLine()) {
 				String l = in.nextLine().toUpperCase();

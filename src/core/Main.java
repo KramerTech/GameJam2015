@@ -57,6 +57,7 @@ public class Main extends PApplet {
 		
 		//Test mode
 		worlds = new ArrayList<GameWorld>();
+
 		if (data != null) {
 			worlds.add(Loader.load(data, soundPlayer));
 		} else {
@@ -82,10 +83,12 @@ public class Main extends PApplet {
 	public void draw() {
 		float delta = getNewDelta();
 		clear();
-		g.scale(.5f);
+		//g.scale(.5f);
 		background(0, 216, 216);
+		
 		if (worldChangeDelay == 0) {
 			currWorld.update(delta);
+			
 		} else {
 			worldChangeDelay--;
 		}
