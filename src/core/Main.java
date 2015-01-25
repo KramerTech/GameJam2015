@@ -35,11 +35,13 @@ public class Main extends PApplet {
 	
 	public long lastTime;
 	
-	public static PImage spriteL, spriteR;
+	public static PImage spriteL, spriteR, bunnyL, bunnyR;
 
 	public void setup() {
 		spriteR = loadImage("res/img/upr.png");
 		spriteL = loadImage("res/img/upl.png");
+		bunnyR = loadImage("res/img/bunnyr.png");
+		bunnyL = loadImage("res/img/bunnyl.png");
 		
 		float scale = .7f;
 		size((int) (displayWidth * scale), (int) (displayHeight * scale), P2D);
@@ -126,6 +128,7 @@ public class Main extends PApplet {
 		if (key == 'j') {
 			currWorld.playerShoot = false;
 		}
+		
 		
 		if (key == 'l') {
 			changeWorld(0);

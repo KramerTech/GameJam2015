@@ -58,6 +58,7 @@ public class LevelEditor extends PApplet {
 	}
 	
 	
+	private Main sim = null;
 	public void keyPressed(KeyEvent e) {
 		char key = e.getKeyChar();
 		if (key >= '1' && key <= '9')
@@ -71,14 +72,15 @@ public class LevelEditor extends PApplet {
 		case 'd': world.drag(true); break;
 		case 't':
 			JFrame f = new JFrame();
-			Main sim = new Main(world.data());
+			sim = new Main(world.data());
 			f.add(sim);
 			f.setSize(600, 600);
 			f.setVisible(true);
 			sim.init();
 			break;
 		default:
-			super.keyPressed(e);
+			if (sim == null || sim.finished)
+				super.keyPressed(e);
 		}
 	}
 	
