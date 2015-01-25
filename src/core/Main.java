@@ -81,9 +81,9 @@ public class Main extends PApplet {
 		currWorld = worlds.get(0);
 		
 		for (int i = 0; i < 5; i++)
-			worlds.get(0).enemies.add(new TurtleEnemy(new Vec2(500 + i*100, 100), worlds.get(0).world));
+			worlds.get(0).entities.add(new TurtleEnemy(new Vec2(500 + i*100, 100), worlds.get(0).world));
 		for (int i = 5; i < 20; i++)
-			worlds.get(0).enemies.add(new BunnyEnemy(new Vec2(500 + i*100, 100), worlds.get(0).world, (Math.random() < .5) ? worlds.get(0).player.playerBody : null));
+			worlds.get(0).entities.add(new BunnyEnemy(new Vec2(500 + i*100, 100), worlds.get(0).world, (Math.random() < .5) ? worlds.get(0).player.playerBody : null));
 		
 		lastTime = this.millis();
 	}

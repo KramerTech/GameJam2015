@@ -7,6 +7,7 @@ import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.World;
 
 import processing.core.PGraphics;
+import core.Entity.Entity;
 import core.contactlistener.WorldContactListener;
 import core.enemy.Enemy;
 import core.level.Level;
@@ -26,9 +27,8 @@ public class GameWorld {
 	private float camX, camY;
 	
 	public boolean playerLeft, playerRight, playerJump, playerShoot;
-	
-	public ArrayList<Projectile> projectiles;
-	public ArrayList<Enemy> enemies;
+
+	public ArrayList<Entity> entities;
 	
 	public GameWorld(Level level, Player player) {
 		this.level = level;
@@ -48,8 +48,7 @@ public class GameWorld {
 		player.initPhysics(world);
 		level.initPhysics(world);
 		
-		projectiles = new ArrayList<Projectile>();
-		enemies = new ArrayList<Enemy>();
+		entities = new ArrayList<Entity>();
 	}
 	
 	public void draw(PGraphics g) {
@@ -78,11 +77,8 @@ public class GameWorld {
 		
 			level.draw(g, (int)(-camX/32-renderWidth/2), (int) (-camY/32-renderHeight/2), renderWidth, renderHeight);
 			drawPlayer(g);
-			for (Projectile p : projectiles) {
-				p.draw(g);
-			}
 			
-			for (Enemy e : enemies) {
+			for (Entity e : entities) {
 				e.draw(g);
 			}
 		g.popMatrix();
@@ -96,21 +92,14 @@ public class GameWorld {
 		
 		player.doMovement(playerRight, playerLeft, playerJump, worldCL.footContacts, playerShoot);
 		playerShoot = false;
-		player.update(delta);
+		player.update(delta);	
 		
-		Iterator<Projectile> i1 = projectiles.iterator();
-		while (i1.hasNext()) {
-			Projectile p = i1.next();
-			if (p.update(delta))
-				i1.remove();
-		}
-		
-		Iterator<Enemy> i2 = enemies.iterator();
-		while (i2.hasNext()) {
-			Enemy e = i2.next();
+		Iterator<Entity> i3 = entities.iterator();
+		while (i3.hasNext()) {
+			Entity e = i3.next();
 			if (e.update(delta))
-				i2.remove();
-		}		
+				i3.remove();
+		}
 	}
 	
 	public void drawPlayer(PGraphics g) {
@@ -127,6 +116,6 @@ public class GameWorld {
 	}
 	
 	public void shootProjectile(Projectile p) {
-		projectiles.add(p);
+		entities.add(p);
 	}
 }
