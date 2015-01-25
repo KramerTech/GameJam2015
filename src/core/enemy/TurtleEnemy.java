@@ -10,6 +10,8 @@ import org.jbox2d.dynamics.FixtureDef;
 import org.jbox2d.dynamics.World;
 
 import processing.core.PGraphics;
+import processing.core.PImage;
+import core.Main;
 import core.contactlistener.SensorData;
 import core.contactlistener.SensorSwitch;
 import core.level.Level;
@@ -90,16 +92,27 @@ public class TurtleEnemy extends Enemy  {
 
 	@Override
 	public void draw(PGraphics g) {
-		g.pushMatrix();
-			g.fill(255, 0, 255);
-			g.rect(body.getPosition().x*32, body.getPosition().y*32, 48, 32);
-		g.popMatrix();
+		g.noStroke();
+		PImage sprite = direction ? Main.turtleR : Main.turtleL;
+		
+		float x = body.getPosition().x * 32 - 24;
+		float y = body.getPosition().y * 32 - 24;
+		
+		g.beginShape();
+		g.texture(sprite);
+		g.vertex(x, y, 0, 0);
+		g.vertex(x, y + 32, 0, sprite.height);
+		g.vertex(x + 32, y + 32, sprite.width, sprite.height);
+		g.vertex(x + 32, y, sprite.width, 0);
+		g.endShape();
 	}
 
+	
 	@Override
 	public void hit(float val) {
 		health -= val;
 	}
+	
 	
 	public Body getBody() {
 		return body;
