@@ -1,6 +1,5 @@
 package core.buttons;
 
-import org.jbox2d.collision.shapes.CircleShape;
 import org.jbox2d.collision.shapes.PolygonShape;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.Body;
@@ -12,10 +11,7 @@ import org.jbox2d.dynamics.World;
 import processing.core.PGraphics;
 import core.Entity.Entity;
 import core.Entity.Toggled;
-import core.contactlistener.SensorData;
 import core.contactlistener.SensorSwitch;
-import core.enemy.Enemy;
-import core.level.Level;
 import core.player.Player;
 
 public class Switch extends Entity implements Toggled {

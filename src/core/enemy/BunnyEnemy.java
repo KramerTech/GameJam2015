@@ -9,13 +9,11 @@ import org.jbox2d.dynamics.BodyType;
 import org.jbox2d.dynamics.FixtureDef;
 import org.jbox2d.dynamics.World;
 
+import processing.core.PGraphics;
 import core.contactlistener.SensorData;
 import core.contactlistener.SensorSwitch;
-import core.contactlistener.TouchListener;
 import core.level.Level;
 import core.player.Player;
-import core.projectile.Projectile;
-import processing.core.PGraphics;
 
 public class BunnyEnemy extends Enemy  {
 

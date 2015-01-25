@@ -3,7 +3,6 @@ package core.contactlistener;
 import org.jbox2d.callbacks.ContactImpulse;
 import org.jbox2d.callbacks.ContactListener;
 import org.jbox2d.collision.Manifold;
-import org.jbox2d.dynamics.Fixture;
 import org.jbox2d.dynamics.contacts.Contact;
 
 import core.enemy.Enemy;
@@ -61,14 +60,6 @@ public class WorldContactListener implements ContactListener {
 	
 	public int footContacts = 0;
 
-	private Fixture getFeetFixture(Fixture f1, Fixture f2) {
-        if (f1.getUserData() != null && ((SensorData) f1.getUserData()).value == Player.FEET_SENSOR_ID) {
-            return f1;
-        } else if (f2.getUserData() != null && ((SensorData) f1.getUserData()).value == Player.FEET_SENSOR_ID) {
-            return f2;
-        }
-        return null;
-    }
 	
 	private boolean hasID(Contact contact, int id1, int id2) {
 		if (contact.getFixtureA().getUserData() == null || contact.getFixtureB().getUserData() == null)

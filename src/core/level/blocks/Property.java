@@ -4,7 +4,7 @@ public class Property {
 
 	public static final int COLOR = 0;
 	public static final int COLLIDES = 1;
-	public static final int ALIVE = 2;
+	public static final int ID = 2;
 	public static final int BLOCK = 3;
 	public static final int PLAYER = 4;
 	public static final int NO_DRAW = 5;

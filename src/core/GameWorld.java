@@ -9,10 +9,8 @@ import org.jbox2d.dynamics.World;
 import processing.core.PGraphics;
 import core.Entity.Entity;
 import core.contactlistener.WorldContactListener;
-import core.enemy.Enemy;
 import core.level.Level;
 import core.player.Player;
-import core.projectile.BounceyBall;
 import core.projectile.Projectile;
 
 public class GameWorld {

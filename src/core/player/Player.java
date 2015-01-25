@@ -25,12 +25,10 @@ public class Player {
 	public static final int PLAYER_SENSOR_ID = 3;
 
 	private float x, y;
-	private float vx, vy;
 	
 	private boolean direction;
 	
 	public Body playerBody;
-	private Body playerFeet;
 	
 	private GameWorld world;
 	
@@ -42,8 +40,6 @@ public class Player {
 		this.world = world;
 		this.x = x;
 		this.y = y;
-		this.vx = 0;
-		this.vy = 0;
 		this.sp = sp;
 	}
 	

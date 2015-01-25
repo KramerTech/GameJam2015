@@ -13,10 +13,7 @@ import processing.core.PGraphics;
 import core.Entity.Entity;
 import core.Entity.Toggled;
 import core.contactlistener.SensorData;
-import core.contactlistener.SensorSwitch;
-import core.enemy.Enemy;
 import core.level.Level;
-import core.player.Player;
 
 public class Door extends Entity {
 

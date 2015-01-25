@@ -4,13 +4,9 @@ import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 
-import org.jbox2d.common.Vec2;
-
 import processing.core.PApplet;
 import processing.core.PImage;
 import sound.SoundPlayer;
-import core.enemy.BunnyEnemy;
-import core.enemy.TurtleEnemy;
 import core.level.Loader;
 
 public class Main extends PApplet {

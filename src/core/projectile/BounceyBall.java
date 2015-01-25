@@ -1,17 +1,14 @@
 package core.projectile;
 
 import org.jbox2d.collision.shapes.CircleShape;
-import org.jbox2d.collision.shapes.PolygonShape;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.BodyDef;
 import org.jbox2d.dynamics.BodyType;
 import org.jbox2d.dynamics.FixtureDef;
-
-
 import org.jbox2d.dynamics.World;
 
-import core.contactlistener.SensorData;
 import processing.core.PGraphics;
+import core.contactlistener.SensorData;
 
 public class BounceyBall extends Projectile {
 	
