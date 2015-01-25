@@ -124,13 +124,12 @@ public class Main extends PApplet {
 			worldChangeDelay -= delta;
 		}
 		
-		if (worldChangeTimer <= 0) {
+		if (worldChangeTimer <= 0 && data == null) {
 			int newWorld = randGen.nextInt(worlds.size());
 			changeWorld(newWorld);
 			worldChangeTimer = 60 * 10;
 		} else {
 			worldChangeTimer -= delta;
-			System.out.println(worldChangeTimer);
 		}
 		
 		currWorld.draw(g);
