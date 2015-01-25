@@ -56,6 +56,8 @@ public class LevelEditor extends PApplet {
 		switch (key) {
 		case ' ': world.undo(); break;
 		case 'r': world.noScroll(); break;
+		case 's': world.save();
+		case 'a': world.saveAs();
 		}
 	}
 	

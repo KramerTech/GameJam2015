@@ -36,7 +36,7 @@ import sound.SoundPlayer;
 
 public class Player {
 	
-	public static final int WIDTH = 32, HEIGHT = 64;
+	public static final int WIDTH = 32, HEIGHT = 96;
 	public static final float MAX_X_SPEED = 5;
 	public static final float X_ACC = 1;
 	public static final int FEET_SENSOR_ID = 2;

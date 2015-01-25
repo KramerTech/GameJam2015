@@ -34,8 +34,8 @@ public class Main extends PApplet {
 	public static PImage spriteL, spriteR;
 
 	public void setup() {
-		spriteR = loadImage("res/img/right.png");
-		spriteL = loadImage("res/img/left.png");
+		spriteR = loadImage("res/img/upr.png");
+		spriteL = loadImage("res/img/upl.png");
 		
 		float scale = .7f;
 		size((int) (displayWidth * scale), (int) (displayHeight * scale), P2D);

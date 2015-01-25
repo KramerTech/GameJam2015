@@ -15,7 +15,14 @@ public class World implements Element {
 	
 	int zoom = 32;
 	
+	private boolean lock;
 	int block;
+	
+	private String save;
+	
+	
+	public void lock() {lock = true;}
+	public void unlock() {lock = false;}
 	
 	ArrayList<ArrayList<Integer>> world;
 	
@@ -93,6 +100,7 @@ public class World implements Element {
 	private boolean rect = false;
 	private int ox, oy;
 	public synchronized void mouse(MouseEvent e, PApplet g) {
+		if (lock) return;
 		if (e.getAction() == MouseEvent.RELEASE) {
 			if (e.getButton() == 3) {
 				grab = false;

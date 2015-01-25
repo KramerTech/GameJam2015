@@ -84,7 +84,7 @@ public class GameWorld {
 	public void update(float delta) {
 		if (delta > 2)
 			delta = 2;
-		world.step(delta/35.0f, 12, 4);
+		world.step(delta/45.0f, 12, 4);
 		player.doMovement(playerRight, playerLeft, playerJump, worldCL.footContacts, playerShoot);
 		playerShoot = false;
 		player.update(delta);
