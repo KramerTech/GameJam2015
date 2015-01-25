@@ -74,13 +74,7 @@ public class Main extends PApplet {
 
 		if (data != null) {
 			worlds.add(Loader.load(data, soundPlayer, testBgColor));
-		} else {
-//			for (int i = 0; i < 100; i++) {
-//				if (!new File(Loader.SAVES + "level" + i + ".lvl").exists()) continue;
-//				System.out.println("Loading level " + i);
-//				worlds.add(Loader.load("level" + i, soundPlayer));
-//			}
-			
+		} else {			
 			File levelDir = new File(Loader.SAVES);
 			File[] levels = levelDir.listFiles();
 			
@@ -127,7 +121,14 @@ public class Main extends PApplet {
 		
 		if (worldChangeTimer <= 0 && data == null) {
 			int newWorld = randGen.nextInt(worlds.size());
+			
+			while (worlds.get(newWorld) == currWorld) {
+				newWorld = randGen.nextInt(worlds.size());
+			}
+			
 			changeWorld(newWorld);
+			
+			
 			worldChangeTimer = 60 * 10;
 		} else {
 			worldChangeTimer -= delta;
