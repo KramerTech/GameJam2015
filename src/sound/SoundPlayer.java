@@ -20,35 +20,53 @@ public class SoundPlayer {
 	Sample smus;
 	Sample fmus;
 	
+	Sample pickup;
+	Sample jump;
+	Sample stat;
+	
 	Gain sgain;
 	Gain fgain;
 	
 	SamplePlayer ssp;
 	SamplePlayer fsp;
 	
-	HashMap<String,String> sounds;
+	SamplePlayer psp;
+	SamplePlayer jsp;
+	SamplePlayer stsp;
+	
+	HashMap<String,Sample> sounds;
 	HashMap<String,SamplePlayer> playing;
 	
 	public SoundPlayer(PApplet applet) {
 		minim = new Minim(applet);		
 		
-		sounds = new HashMap<String,String>();
+		sounds = new HashMap<String,Sample>();
 		playing = new HashMap<String,SamplePlayer>();
 		
-		sounds.put("pickup", "res/sfx/pickup.wav");
-		sounds.put("jump", "res/sfx/jump.wav");
-		sounds.put("static", "res/sfx/static.wav");
+
 		
 		ac = new AudioContext();
 		
 		smus = SampleManager.sample("res/music/GGJ_Space.mp3");
 		fmus = SampleManager.sample("res/music/GGJ_Field.mp3");
 		
+		pickup = SampleManager.sample("res/sfx/pickup.wav");
+		jump = SampleManager.sample("res/sfx/jump.wav");
+		stat = SampleManager.sample("res/sfx/static.wav");
+		
 		sgain = new Gain(ac, 1, 0.0f);
 		fgain = new Gain(ac, 1, 0.0f);
 		
 		ssp = new SamplePlayer(ac, smus);
 		fsp = new SamplePlayer(ac, fmus);
+		
+		jsp = new SamplePlayer(ac, jump);
+		psp = new SamplePlayer(ac, pickup);
+		stsp = new SamplePlayer(ac, stat);
+		
+		sounds.put("pickup", pickup);
+		sounds.put("jump", jump);
+		sounds.put("static", stat);
 		
 		fsp.setLoopType(SamplePlayer.LoopType.LOOP_FORWARDS);
 		ssp.setLoopType(SamplePlayer.LoopType.LOOP_FORWARDS);
@@ -62,17 +80,16 @@ public class SoundPlayer {
 		ac.out.addInput(fgain);
 		
 		ac.start();
-		
-		//fsp.start();
-		//ssp.start();
 	}
 	
 	public void play(String name) {
-		try {
-			String path = sounds.get(name);
-		
-			AudioPlayer player = minim.loadFile(path);
-			player.play();
+		try {		
+			Sample sample = sounds.get(name);
+			SamplePlayer player = new SamplePlayer(ac, sample);
+			
+			ac.out.addInput(player);
+			player.setKillOnEnd(true);
+			player.start();
 			
 		} catch(Exception e) {
 			e.printStackTrace();
