@@ -58,7 +58,7 @@ public class Level {
 	public void clear() {
 		for (int x = 0; x < width; x++) {
 			for (int y = 0; y < height; y++) {
-				level[x][y] = Block.AIR;
+				level[x][y] = null;
 			}
 		}
 	}
@@ -67,7 +67,7 @@ public class Level {
 		
 		for (int i = 0; i < width; i++) {
 			for (int j = 0; j < height; j++) {
-				if (level[i][j].get(Property.COLLIDES) == 1) {
+				if (level[i][j] != null && level[i][j].get(Property.COLLIDES) == 1) {
 					BodyDef bd = new BodyDef();
 					bd.position.set(i, j);
 					bd.type = BodyType.STATIC;

@@ -5,7 +5,12 @@ public class Property {
 	public static final int COLOR = 0;
 	public static final int COLLIDES = 1;
 	public static final int ALIVE = 2;
-
+	public static final int BLOCK = 3;
+	public static final int PLAYER = 4;
+	public static final int NO_DRAW = 5;
+	
+	public static final int PROPERTY_COUNT = 6;
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -30,10 +35,6 @@ public class Property {
 			return false;
 		return true;
 	}
-
-	public static final int BLOCK = 3;
-	
-	public static final int PROPERTY_COUNT = 3;
 	
 	public int type, value;
 	public Property(int type, int value) {

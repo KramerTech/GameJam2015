@@ -1,15 +1,17 @@
 package editor;
 
 import java.awt.event.MouseWheelEvent;
+import java.io.File;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 import core.level.blocks.Block;
+import core.level.blocks.Property;
 import processing.core.PApplet;
 import processing.event.MouseEvent;
 
 public class Bar implements Element {
 
-	private ArrayList<Integer> colors;
 	
 	private int BLACK = 0xff000000;
 	private int WHITE = 0xffffffff;
@@ -20,7 +22,29 @@ public class Bar implements Element {
 	private ArrayList<Block> blocks;
 	
 	public Bar() {
-		//TODO load block types from file
+		blocks = new ArrayList<Block>();
+		try {
+			Scanner in = new Scanner(new File("res/pallete"));
+			Scanner line;
+			while (in.hasNextLine()) {
+				String l = in.nextLine().toUpperCase();
+				line = new Scanner(l);
+				Property[] p = new Property[Property.PROPERTY_COUNT];
+				while (line.hasNextInt()) {
+					int i = line.nextInt();
+					if (i == Property.COLOR)
+						p[i] = new Property(i, (int) line.nextLong(16));
+					else
+						p[i] = new Property(i, line.nextInt());
+				}
+				blocks.add(Block.getBlock(p));
+				line.close();
+			}
+			in.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		block = blocks.get(0);
 	}
 	
 	private Block block;
@@ -35,14 +59,14 @@ public class Bar implements Element {
 		
 		x = x - 2;
 		
-		int ydelta = g.height / colors.size();
-		for (int y = 0; y < colors.size(); y++) {
+		int ydelta = g.height / blocks.size();
+		for (int y = 0; y < blocks.size(); y++) {
 			g.fill(WHITE);
 			if (y == mouseOver) g.fill(GRAY);
 			g.rect(0, ydelta * y, x, ydelta);
 			g.fill(BLACK);
 			g.rect(4, ydelta * y + 4, x - 8, ydelta - 8);
-			g.fill(colors.get(y));
+			g.fill(blocks.get(y).get(Property.COLOR));
 			g.rect(5, ydelta * y + 5, x - 10, ydelta - 10);
 			if (y == selector)
 				g.rect(0, ydelta * y, x, ydelta);
@@ -66,7 +90,7 @@ public class Bar implements Element {
 			mouseOver = -1;
 			return;
 		}
-		int i = g.mouseY / (g.height / colors.size());
+		int i = g.mouseY / (g.height / blocks.size());
 		if (i != selector)
 			mouseOver = i;
 		else
@@ -87,7 +111,7 @@ public class Bar implements Element {
 	}
 
 	public void setBlock(int i) {
-		if (i >= 0 && i < colors.size()) {
+		if (i >= 0 && i < blocks.size()) {
 			selector = i;
 			block = blocks.get(i);
 		}

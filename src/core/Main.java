@@ -11,6 +11,7 @@ import processing.core.PImage;
 import sound.SoundPlayer;
 import core.enemy.BunnyEnemy;
 import core.enemy.TurtleEnemy;
+import core.level.Loader;
 
 public class Main extends PApplet {
 
@@ -50,15 +51,17 @@ public class Main extends PApplet {
 		soundPlayer = new SoundPlayer(this);
 		
 		worlds = new ArrayList<GameWorld>();
-		//worlds.add(new GameWorld(l, new Player(100,100, soundPlayer, null)));
+		worlds.add(Loader.load("level1", soundPlayer));
 
 		
 		currWorld = worlds.get(0);
 		
+		/*
 		for (int i = 0; i < 5; i++)
 			worlds.get(0).entities.add(new TurtleEnemy(new Vec2(500 + i*100, 100), worlds.get(0).world));
 		for (int i = 5; i < 20; i++)
 			worlds.get(0).entities.add(new BunnyEnemy(new Vec2(500 + i*100, 100), worlds.get(0).world, (Math.random() < .5) ? worlds.get(0).player.playerBody : null));
+		*/
 		
 		lastTime = this.millis();
 	}
@@ -67,8 +70,8 @@ public class Main extends PApplet {
 	public void draw() {
 		float delta = getNewDelta();
 		clear();
-		background(0);
-		
+		g.scale(.5f);
+		background(0, 216, 216);
 		if (worldChangeDelay == 0) {
 			currWorld.update(delta);
 		} else {

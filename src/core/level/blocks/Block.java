@@ -8,14 +8,14 @@ import processing.core.PGraphics;
 
 public class Block {
 	
-	public static final Block AIR = BlockTypes.air();
-	
 	private static HashMap<Property[], Block> blocks = new HashMap<Property[], Block>();
 	
 	private Property[] properties = new Property[Property.PROPERTY_COUNT];
 	
 	public void draw(PGraphics g) {
-		
+		g.fill(properties[Property.COLOR].value);
+		g.noStroke();
+		g.rect(0, 0, 32, 32);
 	}
 	
 	
@@ -67,7 +67,7 @@ public class Block {
 	}
 	
 	public int get(int type) {
-		return properties[type].value;
+		return properties[type] == null ? 0 : properties[type].value;
 	}
 	
 	

@@ -72,7 +72,7 @@ public class GameWorld {
 			
 			g.translate(camX+g.width/2, camY+g.height/2);
 			
-			int renderHeight = 20;
+			int renderHeight = 21;
 			int renderWidth = 40;
 		
 			level.draw(g, (int)(-camX/32-renderWidth/2), (int) (-camY/32-renderHeight/2), renderWidth, renderHeight);
