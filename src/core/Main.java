@@ -35,7 +35,7 @@ public class Main extends PApplet {
 	SoundPlayer soundPlayer;
 	
 	float worldChangeDelay = 0;
-	float worldChangeTimer = 60 * 100;
+	float worldChangeTimer = 60 * 10;
 	
 	int testBgColor;
 	
@@ -124,7 +124,6 @@ public class Main extends PApplet {
 			
 			changeWorld(newWorld);
 			
-			
 			worldChangeTimer = 60 * 10;
 		} else {
 			worldChangeTimer -= delta;
@@ -132,8 +131,11 @@ public class Main extends PApplet {
 		
 		currWorld.draw(g);
 		
-		if (currWorld.player.dead) {
+		if (currWorld.player.dead || currWorld.player.win) {
 			int i = worlds.indexOf(currWorld);
+			if (currWorld.player.win) {
+				soundPlayer.play("pickup");
+			}
 			currWorld = Loader.load(currWorld.filename, soundPlayer);
 			worlds.set(i, currWorld);
 		}
