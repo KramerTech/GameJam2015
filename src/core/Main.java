@@ -105,6 +105,7 @@ public class Main extends PApplet {
 		return (float) (diff/16000000.0);
 	}
 	
+	
 	public void changeWorld(int worldId) {
 		currWorld.playerLeft = false;
 		currWorld.playerRight = false;
@@ -114,6 +115,7 @@ public class Main extends PApplet {
 		currWorld = worlds.get(worldId);
 		worldChangeDelay = 100;
 	}
+	
 	
 	public void keyReleased() {
 		if (key == 'a') {
