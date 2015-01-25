@@ -24,7 +24,13 @@ public class Loader {
 		}
 		Scanner line = new Scanner(in.nextLine());
 		int mapx = line.nextInt();
+		System.out.println(mapx);
 		int mapy = line.nextInt();
+		line.close();
+		
+		line = new Scanner(in.nextLine());
+		
+		int bgType = line.nextInt();
 		
         int playerx = 0, playery = 0;
         

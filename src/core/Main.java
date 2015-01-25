@@ -48,6 +48,7 @@ public class Main extends PApplet {
 		
 		worlds = new ArrayList<GameWorld>();
 		worlds.add(Loader.load("level1", soundPlayer));
+		worlds.add(Loader.load("jason", soundPlayer));
 
 		
 		currWorld = worlds.get(0);
@@ -66,10 +67,12 @@ public class Main extends PApplet {
 	public void draw() {
 		float delta = getNewDelta();
 		clear();
-		g.scale(.5f);
+		//g.scale(.5f);
 		background(0, 216, 216);
+		
 		if (worldChangeDelay == 0) {
 			currWorld.update(delta);
+			
 		} else {
 			worldChangeDelay--;
 		}

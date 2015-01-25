@@ -16,6 +16,7 @@ public class Level {
 	public static final int LEVEL_SENSOR_ID = 4;
 
 	private int width, height;
+	private int bgType;
 	
 	private Block[][] level;
 	
@@ -35,6 +36,7 @@ public class Level {
 	
 	public void draw(PGraphics g, int x, int y, int w, int h) {
 		Block curBlock;
+		g.background(0,0,0);
 		for (int xx = x; xx < x+w; xx++) {
 			for (int yy = y; yy < y+h; yy++) {
 				if (xx >= 0 && yy >= 0 && xx < width && yy < height) {
