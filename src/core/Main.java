@@ -182,14 +182,6 @@ public class Main extends PApplet {
 		if (key == 'j') {
 			currWorld.playerShoot = false;
 		}
-		
-		
-		if (key == 'l') {
-			changeWorld(0);
-		}
-		if (key == ';') {
-			changeWorld(1);
-		}
 	}
 	
 	public void keyPressed() {
