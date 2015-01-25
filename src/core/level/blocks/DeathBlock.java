@@ -54,7 +54,7 @@ public class DeathBlock extends Entity {
 		
 		body.createFixture(fd);
 		
-	}
+	} //Added comment
 	
 	@Override
 	public boolean update(float delta) {
