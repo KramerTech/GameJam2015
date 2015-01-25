@@ -11,6 +11,7 @@ import core.level.Level;
 import core.level.blocks.GrassBlock;
 import core.player.Player;
 import processing.core.PApplet;
+import processing.core.PImage;
 import sound.SoundPlayer;
 
 public class Main extends PApplet {
@@ -29,8 +30,13 @@ public class Main extends PApplet {
 	int worldChangeDelay = 0;
 	
 	public long lastTime;
+	
+	public static PImage spriteL, spriteR;
 
 	public void setup() {
+		spriteR = loadImage("res/img/right.png");
+		spriteL = loadImage("res/img/left.png");
+		
 		float scale = .7f;
 		size((int) (displayWidth * scale), (int) (displayHeight * scale), P2D);
 		if (frame != null) {

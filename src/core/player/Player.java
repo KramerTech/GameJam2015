@@ -21,6 +21,7 @@ import org.jbox2d.dynamics.joints.WeldJointDef;
 import org.jbox2d.*;
 
 import core.GameWorld;
+import core.Main;
 import core.contactlistener.SensorData;
 import core.contactlistener.WorldContactListener;
 import core.level.Level;
@@ -30,6 +31,7 @@ import core.projectile.BounceyBall;
 import core.projectile.Projectile;
 import processing.core.PApplet;
 import processing.core.PGraphics;
+import processing.core.PImage;
 import sound.SoundPlayer;
 
 public class Player {
@@ -68,8 +70,15 @@ public class Player {
 	}
 	
 	public void draw(PGraphics g) {
-		g.fill(255, 0, 0);
-		g.rect(0, 0, WIDTH, HEIGHT);
+		g.noStroke();
+		PImage sprite = direction ? Main.spriteR : Main.spriteL;
+		g.beginShape();
+		g.texture(sprite);
+		g.vertex(-WIDTH / 2, -HEIGHT / 2, 0, 0);
+		g.vertex(-WIDTH / 2, HEIGHT / 2, 0, sprite.height);
+		g.vertex(WIDTH / 2, HEIGHT / 2, sprite.width, sprite.height);
+		g.vertex(WIDTH / 2, -HEIGHT / 2, sprite.width, 0);
+		g.endShape();
 	}
 	
 	public void update(float delta) {
