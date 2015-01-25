@@ -17,6 +17,8 @@ public class World implements Element {
 	
 	Block block;
 	
+	public boolean saved = true;
+	
 	ArrayList<ArrayList<Block>> world;
 	
 	Random r = new Random();
@@ -195,11 +197,13 @@ public class World implements Element {
 					if (current != null)
 						current.move(x, y, row.get(x));
 					row.set(x, block);
+					saved = false;
 				}
 			} else {
 				for (int i = x - row.size(); i > 0; i--)
 					row.add(null);
 				row.add(block);
+				saved = false;
 				if (current != null)
 					current.move(x, y, null);
 			}
@@ -216,7 +220,7 @@ public class World implements Element {
 	
 	public void bite(PApplet g, Block block, int x, int y) {
 		if (block == null) return;
-		g.fill(block.color);
+		g.fill(block.get(Property.COLOR).value);
 		g.rect(x - scrollx % zoom, y + scrolly % zoom, zoom, zoom);
 	}
 
@@ -249,7 +253,7 @@ public class World implements Element {
 			int miny = Math.max(y, oy);
 			x = (Math.max(x, ox) - minx + 1) * zoom;
 			y = (miny + 1 - Math.min(y, oy)) * zoom;
-			g.fill(block == null ? 0x88000000: block.color);
+			g.fill(block == null ? 0x88000000: block.get(Property.COLOR).value);
 			g.rect(getX(minx, g), getY(miny, g), x, y);
 		}
 		
