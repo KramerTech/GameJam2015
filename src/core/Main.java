@@ -75,8 +75,14 @@ public class Main extends PApplet {
 		
 		currWorld = worlds.get(0);
 		
-		soundPlayer.playField();
-		//soundPlayer.playLoop("spacemus", "smus");		
+		switch (currWorld.level.getBgType()) {
+		case 0:
+			soundPlayer.playField();
+			break;
+		case 1:
+			soundPlayer.playSpace();
+			break;
+		}	
 		
 		/*
 		for (int i = 0; i < 5; i++)
@@ -118,7 +124,7 @@ public class Main extends PApplet {
 		currWorld.playerRight = false;
 		currWorld.playerJump = false;
 		
-		soundPlayer.play("pickup");
+		soundPlayer.play("static");
 		
 		currWorld = worlds.get(worldId);
 		
