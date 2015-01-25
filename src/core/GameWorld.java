@@ -7,6 +7,7 @@ import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.World;
 
 import processing.core.PGraphics;
+import core.contactlistener.WorldContactListener;
 import core.level.Level;
 import core.player.Player;
 import core.projectile.BounceyBall;
@@ -20,6 +21,8 @@ public class GameWorld {
 	private World world;
 	
 	private WorldContactListener worldCL;
+	
+	private float camX, camY;
 	
 	public boolean playerLeft, playerRight, playerJump, playerShoot;
 	
@@ -50,12 +53,27 @@ public class GameWorld {
 		g.pushMatrix();
 			float offsetX = -player.getX();
 			float offsetY = -player.getY();
-			g.translate(offsetX+g.width/2, offsetY+g.height/2);
+			
+			float bound = 100;
+			
+			if (offsetX > camX + bound)
+				camX = offsetX - bound;
+			
+			if (offsetX < camX - bound)
+				camX = offsetX + bound;
+			
+			if (offsetY > camY + bound)
+				camY = offsetY - bound;
+			
+			if (offsetY < camY - bound)
+				camY = offsetY + bound;
+			
+			g.translate(camX+g.width/2, camY+g.height/2);
 			
 			int renderHeight = 20;
 			int renderWidth = 40;
 		
-			level.draw(g, (int)(-offsetX/32-renderWidth/2), (int) (-offsetY/32-renderHeight/2), renderWidth, renderHeight);
+			level.draw(g, (int)(-camX/32-renderWidth/2), (int) (-camY/32-renderHeight/2), renderWidth, renderHeight);
 			drawPlayer(g);
 			for (Projectile p : projectiles) {
 				p.draw(g);
@@ -68,6 +86,7 @@ public class GameWorld {
 			delta = 2;
 		world.step(delta/35.0f, 12, 4);
 		player.doMovement(playerRight, playerLeft, playerJump, worldCL.footContacts, playerShoot);
+		playerShoot = false;
 		player.update(delta);
 		
 		Iterator<Projectile> i = projectiles.iterator();

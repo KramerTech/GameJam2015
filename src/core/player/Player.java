@@ -21,7 +21,8 @@ import org.jbox2d.dynamics.joints.WeldJointDef;
 import org.jbox2d.*;
 
 import core.GameWorld;
-import core.WorldContactListener;
+import core.contactlistener.SensorData;
+import core.contactlistener.WorldContactListener;
 import core.level.Level;
 import core.level.blocks.Block;
 import core.level.blocks.GrassBlock;
@@ -92,7 +93,7 @@ public class Player {
 			totalYImpulse = -10;
 		}
 		if (jump && canJump) {
-			playerBody.setLinearVelocity(new Vec2(0, 0));
+			playerBody.setLinearVelocity(new Vec2(playerBody.getLinearVelocity().x, 0));
 			totalYImpulse = -20;
 			canJump = false;
 			sp.play("jump");
@@ -101,7 +102,7 @@ public class Player {
 		
 		if (shoot) {
 			System.out.println("Shoot");
-			world.shootProjectile(new BounceyBall(new Vec2(playerBody.getPosition().x*32 + 40, playerBody.getPosition().y*32), new Vec2(0, 0), playerBody.getWorld()));
+			world.shootProjectile(new BounceyBall(new Vec2(playerBody.getPosition().x*32 + (direction ? 40 : -40), playerBody.getPosition().y*32), new Vec2((direction ? 10 : -10), 0), playerBody.getWorld()));
 		}
 	}
 	
@@ -141,7 +142,7 @@ public class Player {
 		fd.density = .5f;
 		fd.friction = 0f;
 		fd.restitution = 0f;
-		fd.userData = PLAYER_SENSOR_ID;
+		fd.userData = new SensorData(PLAYER_SENSOR_ID);
 		
 		playerBody = world.createBody(bd);
 		playerBody.createFixture(fd);
@@ -164,7 +165,7 @@ public class Player {
 		fd2.friction = 0.3f;        
 		fd2.restitution = 0.5f;
 		fd2.isSensor = true;
-		fd2.userData = FEET_SENSOR_ID;
+		fd2.userData = new SensorData(FEET_SENSOR_ID);
 
 		playerBody.createFixture(fd2);
 		

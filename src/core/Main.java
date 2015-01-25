@@ -53,13 +53,17 @@ public class Main extends PApplet {
 			l.setBlock(i, 16, gb);
 			l.setBlock(i, 0, gb);
 			l.setBlock(0, i, gb);
-			l.setBlock(30, i, gb);
+			l.setBlock(50, i, gb);
 		}
 		l.setBlock(5, 4, gb);
 		
 		for (int i = 0; i < 5; i++) {
 			l.setBlock(i+3, 15, gb);
 			l.setBlock(i+9, 13, gb);
+		}
+		
+		for (int x = 0; x < 6; x++) {
+			l.setBlock(x+20, 16-x, gb);
 		}
 		
 		worlds.add(new GameWorld(l, new Player(100,100, soundPlayer, null)));

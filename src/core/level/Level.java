@@ -9,6 +9,7 @@ import org.jbox2d.dynamics.BodyType;
 import org.jbox2d.dynamics.FixtureDef;
 import org.jbox2d.dynamics.World;
 
+import core.contactlistener.SensorData;
 import core.level.blocks.AirBlock;
 import core.level.blocks.Block;
 import core.level.blocks.GrassBlock;
@@ -84,7 +85,7 @@ public class Level {
 					fd.density = .5f;
 					fd.friction = 0f;
 					fd.restitution = 0f;
-					fd.userData = LEVEL_SENSOR_ID;
+					fd.userData = new SensorData(LEVEL_SENSOR_ID);
 					
 					world.createBody(bd).createFixture(fd);
 				}

@@ -1,4 +1,4 @@
-package core;
+package core.contactlistener;
 
 import org.jbox2d.callbacks.ContactImpulse;
 import org.jbox2d.callbacks.ContactListener;
@@ -8,6 +8,7 @@ import org.jbox2d.dynamics.contacts.Contact;
 
 import core.level.Level;
 import core.player.Player;
+import core.projectile.Projectile;
 
 public class WorldContactListener implements ContactListener {
 
@@ -16,6 +17,11 @@ public class WorldContactListener implements ContactListener {
 		
 		if (hasID(contact, Player.FEET_SENSOR_ID, Level.LEVEL_SENSOR_ID))
 				footContacts++;
+		
+		if (hasID(contact, Player.PLAYER_SENSOR_ID, Projectile.SENSOR_ID)) {
+			SensorData p = getDataFromID(contact, Projectile.SENSOR_ID);
+			((Projectile) p.actor).setHit();
+		}
 	}
 
 	@Override
@@ -39,9 +45,9 @@ public class WorldContactListener implements ContactListener {
 	public int footContacts = 0;
 
 	private Fixture getFeetFixture(Fixture f1, Fixture f2) {
-        if (f1.getUserData() != null && (Integer) f1.getUserData() == Player.FEET_SENSOR_ID) {
+        if (f1.getUserData() != null && ((SensorData) f1.getUserData()).value == Player.FEET_SENSOR_ID) {
             return f1;
-        } else if (f2.getUserData() != null && (Integer) f2.getUserData() == Player.FEET_SENSOR_ID) {
+        } else if (f2.getUserData() != null && ((SensorData) f1.getUserData()).value == Player.FEET_SENSOR_ID) {
             return f2;
         }
         return null;
@@ -51,12 +57,21 @@ public class WorldContactListener implements ContactListener {
 		if (contact.getFixtureA().getUserData() == null || contact.getFixtureB().getUserData() == null)
 			return false;
 		
-		if ((Integer) contact.getFixtureA().getUserData() == id1 && (Integer) contact.getFixtureB().getUserData() == id2)
+		if (((SensorData) contact.getFixtureA().getUserData()).value == id1 && ((SensorData) contact.getFixtureB().getUserData()).value == id2)
 			return true;
-		if ((Integer) contact.getFixtureA().getUserData() == id2 && (Integer) contact.getFixtureB().getUserData() == id1)
+		if (((SensorData) contact.getFixtureA().getUserData()).value == id2 && ((SensorData) contact.getFixtureB().getUserData()).value == id1)
 			return true;
 		
 		return false;
+	}
+	
+	private SensorData getDataFromID(Contact contact, int id) {
+		if (((SensorData) contact.getFixtureA().getUserData()).value == id)
+			return (SensorData) contact.getFixtureA().getUserData();
+		if (((SensorData) contact.getFixtureB().getUserData()).value == id)
+			return (SensorData) contact.getFixtureB().getUserData();
+		return null;
+		
 	}
 	
 }

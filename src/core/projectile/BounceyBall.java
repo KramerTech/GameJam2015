@@ -10,11 +10,12 @@ import org.jbox2d.dynamics.FixtureDef;
 
 import org.jbox2d.dynamics.World;
 
+import core.contactlistener.SensorData;
 import processing.core.PGraphics;
 
 public class BounceyBall extends Projectile {
 	
-	private float life = 200;
+	private float life = 80;
 	private World world;
 
 	public BounceyBall(Vec2 pos, Vec2 vel, World world) {
@@ -31,17 +32,18 @@ public class BounceyBall extends Projectile {
 		fd.shape = cs;
 		fd.density = .5f;
 		fd.friction = 0f;
-		fd.restitution = .9f;
-		fd.userData = SENSOR_ID;
+		fd.restitution = .8f;
+		fd.userData = new SensorData(SENSOR_ID, this);
 		
 		super.body = world.createBody(bd);
 		super.body.createFixture(fd);
+		super.body.setLinearVelocity(vel);
 	}
 	
 	@Override
 	public boolean update(float delta) {
 		life -= delta;
-		if (life <= 0) {
+		if (life <= 0 || isHit()) {
 			world.destroyBody(super.body);
 			return true;
 		}
