@@ -10,10 +10,11 @@ import org.jbox2d.dynamics.FixtureDef;
 import org.jbox2d.dynamics.World;
 
 import core.contactlistener.SensorData;
+import core.contactlistener.TouchListener;
 import core.projectile.Projectile;
 import processing.core.PGraphics;
 
-public class TurtleEnemy extends Enemy {
+public class TurtleEnemy extends Enemy implements TouchListener {
 
 	private float health = 3;
 	private World world;
@@ -34,9 +35,31 @@ public class TurtleEnemy extends Enemy {
 		fd.density = .5f;
 		fd.friction = 0f;
 		fd.restitution = 0f;
-		fd.userData = new SensorData(SENSOR_ID, this);
+		fd.userData = new SensorData(Enemy.SENSOR_ID, this);
 		
 		body = world.createBody(bd);
+		body.createFixture(fd);
+		
+		ps = new PolygonShape();
+		ps.setAsBox(.1f, .1f, new Vec2(-1, 0), 0);
+		
+		fd = new FixtureDef();
+		fd.shape = ps;
+		fd.density = .05f;
+		fd.friction = 0f;
+		fd.userData = new SensorData(TouchListener.SENSOR_ID, this, 1);
+		
+		body.createFixture(fd);
+		
+		ps = new PolygonShape();
+		ps.setAsBox(.1f, .1f, new Vec2(1, 0), 0);
+		
+		fd = new FixtureDef();
+		fd.shape = ps;
+		fd.density = .05f;
+		fd.friction = 0f;
+		fd.userData = new SensorData(TouchListener.SENSOR_ID, this, 2);
+		
 		body.createFixture(fd);
 	}
 	
@@ -60,6 +83,11 @@ public class TurtleEnemy extends Enemy {
 	@Override
 	public void hit(float val) {
 		health -= val;
+	}
+
+	@Override
+	public void touch(SensorData a, SensorData b) {
+		System.out.println(a.extra);
 	}
 		
 

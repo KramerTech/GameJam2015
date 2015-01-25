@@ -110,7 +110,6 @@ public class Player {
 		playerBody.applyLinearImpulse(new Vec2(0, totalYImpulse), new Vec2(0, 0));
 		
 		if (shoot) {
-			System.out.println("Shoot");
 			world.shootProjectile(new BounceyBall(new Vec2(playerBody.getPosition().x*32 + (direction ? 40 : -40), playerBody.getPosition().y*32), new Vec2((direction ? 10 : -10), 0), playerBody.getWorld()));
 		}
 	}

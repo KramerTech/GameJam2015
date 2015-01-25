@@ -30,6 +30,11 @@ public class WorldContactListener implements ContactListener {
 			p = getDataFromID(contact, Enemy.SENSOR_ID);
 			((Enemy) p.actor).hit(1);
 		}
+		
+		SensorData data;
+		if ((data = getDataFromID(contact, TouchListener.SENSOR_ID)) != null) {
+			((TouchListener) data.actor).touch(data, (SensorData) ((data == contact.getFixtureA().getUserData()) ? contact.getFixtureB().getUserData() : contact.getFixtureB().getUserData()));
+		}
 	}
 
 	@Override
