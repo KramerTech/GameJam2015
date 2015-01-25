@@ -6,6 +6,7 @@ import org.jbox2d.collision.Manifold;
 import org.jbox2d.dynamics.Fixture;
 import org.jbox2d.dynamics.contacts.Contact;
 
+import core.enemy.Enemy;
 import core.level.Level;
 import core.player.Player;
 import core.projectile.Projectile;
@@ -21,6 +22,13 @@ public class WorldContactListener implements ContactListener {
 		if (hasID(contact, Player.PLAYER_SENSOR_ID, Projectile.SENSOR_ID)) {
 			SensorData p = getDataFromID(contact, Projectile.SENSOR_ID);
 			((Projectile) p.actor).setHit();
+		}
+		
+		if (hasID(contact, Enemy.SENSOR_ID, Projectile.SENSOR_ID)) {
+			SensorData p = getDataFromID(contact, Projectile.SENSOR_ID);
+			((Projectile) p.actor).setHit();
+			p = getDataFromID(contact, Enemy.SENSOR_ID);
+			((Enemy) p.actor).hit(1);
 		}
 	}
 
