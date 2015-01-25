@@ -21,6 +21,10 @@ public class Bar implements Element {
 	
 	private ArrayList<Block> blocks;
 	
+	public void reload() {
+		
+	}
+	
 	public Bar() {
 		blocks = new ArrayList<Block>();
 		try {
