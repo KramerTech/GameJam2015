@@ -68,6 +68,7 @@ public class Main extends PApplet {
 		}
 		
 		currWorld = worlds.get(0);
+		soundPlayer.playLoop("bgmusic", "fmus");
 		
 		/*
 		for (int i = 0; i < 5; i++)
