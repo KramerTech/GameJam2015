@@ -20,6 +20,8 @@ public class GameWorld {
 	
 	public World world;
 	
+	public String filename;
+	
 	private WorldContactListener worldCL;
 	
 	private float camX, camY;

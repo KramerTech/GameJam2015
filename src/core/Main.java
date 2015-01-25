@@ -133,7 +133,7 @@ public class Main extends PApplet {
 		
 		if (currWorld.player.dead) {
 			int i = worlds.indexOf(currWorld);
-			currWorld = Loader.load("level" + (i+1), soundPlayer);
+			currWorld = Loader.load(currWorld.filename, soundPlayer);
 			worlds.set(i, currWorld);
 		}
 	}

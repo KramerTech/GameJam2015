@@ -36,7 +36,6 @@ public class Loader {
 		}
 		Scanner line = new Scanner(in.nextLine());
 		int mapx = line.nextInt();
-		System.out.println(mapx);
 		int mapy = line.nextInt();
 		line.close();
 		
@@ -74,7 +73,7 @@ public class Loader {
 		for (Vec3 e : entities) {
 			build.entities.add(EnitityGenerator.generate(e, build.world));
 		}
-		
+		build.filename = name;
 		return build;
 	}
 }
