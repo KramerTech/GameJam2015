@@ -52,6 +52,10 @@ public class World implements Element {
 	}
 	
 	
+	public void drag(boolean bool) {
+		grab = bool;
+	}
+	
 	class XYC {
 		public XYC(int x, int y, Block b) {
 			this.x = x;
@@ -143,7 +147,7 @@ public class World implements Element {
 				}
 			}
 		}
-		if ( e.getAction() == MouseEvent.DRAG) {
+		if (e.getAction() == MouseEvent.DRAG || (e.getAction() == MouseEvent.MOVE && grab)) {
 			if (grab) shift(g.pmouseX - g.mouseX, g.pmouseY - g.mouseY);
 			if (select) add(getX(g), getY(g), block);
 		}
