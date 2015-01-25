@@ -71,6 +71,9 @@ public class LevelEditor extends PApplet {
 		case 'o': e.consume(); setTitle(Save.Load(world)); break;
 		case 'd': world.drag(true); break;
 		case 't':
+			if (Save.getSave() == null) {
+				setTitle(Save.saveAs(world));
+			}
 			JFrame f = new JFrame();
 
 			Main sim = new Main(Save.getSave(), 0);
