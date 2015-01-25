@@ -36,7 +36,7 @@ public class Player {
 	
 	private SoundPlayer sp;
 	
-	private boolean dead;
+	public boolean dead;
 	
 	public Player(float x, float y, SoundPlayer sp, GameWorld world) {
 		this.world = world;

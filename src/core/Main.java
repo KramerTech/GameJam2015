@@ -96,6 +96,10 @@ public class Main extends PApplet {
 		}
 		
 		currWorld.draw(g);
+		
+		if(currWorld.player.dead) {
+			currWorld = null;
+		}
 	}
 	
 	public float getNewDelta() {
