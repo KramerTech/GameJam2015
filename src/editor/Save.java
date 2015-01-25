@@ -149,4 +149,9 @@ public class Save {
 		writer.write("\n" + x + " " + y + block.toString());
 	}
 
+
+	public static String getSave() {
+		return save;
+	}
+
 }

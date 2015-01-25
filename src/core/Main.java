@@ -22,9 +22,9 @@ public class Main extends PApplet {
 	
 	public Main() {}
 	
-	private ArrayList<ArrayList<Block>> data = null;
+	private String data = null;
 	
-	public Main(ArrayList<ArrayList<Block>> data, int bgType) {
+	public Main(String data, int bgType) {
 		this.data = data;
 		this.testBgColor = bgType;
 	}
@@ -73,7 +73,7 @@ public class Main extends PApplet {
 		worlds = new ArrayList<GameWorld>();
 
 		if (data != null) {
-			worlds.add(Loader.load(data, soundPlayer, testBgColor));
+			worlds.add(Loader.load(data, soundPlayer));
 		} else {
 //			for (int i = 0; i < 100; i++) {
 //				if (!new File(Loader.SAVES + "level" + i + ".lvl").exists()) continue;
@@ -92,22 +92,17 @@ public class Main extends PApplet {
 		
 		currWorld = worlds.get(0);
 		
-		switch (currWorld.level.getBgType()) {
-		case 0:
-			soundPlayer.playField();
-			break;
-		case 1:
-			soundPlayer.playSpace();
-			break;
-		}	
-		
-		/*
-		for (int i = 0; i < 5; i++)
-			worlds.get(0).entities.add(new TurtleEnemy(new Vec2(500 + i*100, 100), worlds.get(0).world));
-		for (int i = 5; i < 20; i++)
-			worlds.get(0).entities.add(new BunnyEnemy(new Vec2(500 + i*100, 100), worlds.get(0).world, (Math.random() < .5) ? worlds.get(0).player.playerBody : null));
-		*/
-		
+		if (data == null) {
+			switch (currWorld.level.getBgType()) {
+			case 0:
+				soundPlayer.playField();
+				break;
+			case 1:
+				soundPlayer.playSpace();
+				break;
+			}
+		}
+
 		lastTime = this.millis();
 	}
 
@@ -135,7 +130,7 @@ public class Main extends PApplet {
 		
 		currWorld.draw(g);
 		
-		if(currWorld.player.dead) {
+		if (currWorld.player.dead) {
 			int i = worlds.indexOf(currWorld);
 			currWorld = Loader.load("level" + (i+1), soundPlayer);
 			worlds.set(i, currWorld);
