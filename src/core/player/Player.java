@@ -47,7 +47,7 @@ public class Player {
 	
 	private boolean direction;
 	
-	private Body playerBody;
+	public Body playerBody;
 	private Body playerFeet;
 	
 	private GameWorld world;

@@ -7,6 +7,7 @@ import javax.swing.ImageIcon;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.World;
 
+import core.enemy.BunnyEnemy;
 import core.enemy.TurtleEnemy;
 import core.level.Level;
 import core.level.blocks.GrassBlock;
@@ -54,13 +55,13 @@ public class Main extends PApplet {
 		
 		worlds = new ArrayList<GameWorld>();
 		
-		Level l = new Level(200, 200);
+		Level l = new Level(200, 30);
 		GrassBlock gb = new GrassBlock();
-		for (int i = 0; i < 200; i++) {
+		for (int i = 0; i < 100; i++) {
 			l.setBlock(i, 16, gb);
 			l.setBlock(i, 0, gb);
 			l.setBlock(0, i, gb);
-			l.setBlock(50, i, gb);
+			l.setBlock(100, i, gb);
 		}
 		l.setBlock(5, 4, gb);
 		
@@ -79,8 +80,10 @@ public class Main extends PApplet {
 		
 		currWorld = worlds.get(0);
 		
-		for (int i = 0; i < 10; i++)
+		for (int i = 0; i < 5; i++)
 			worlds.get(0).enemies.add(new TurtleEnemy(new Vec2(500 + i*100, 100), worlds.get(0).world));
+		for (int i = 5; i < 20; i++)
+			worlds.get(0).enemies.add(new BunnyEnemy(new Vec2(500 + i*100, 100), worlds.get(0).world, (Math.random() < .5) ? worlds.get(0).player.playerBody : null));
 		
 		lastTime = this.millis();
 	}

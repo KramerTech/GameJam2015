@@ -12,10 +12,9 @@ import core.player.Player;
 import core.projectile.Projectile;
 
 public class WorldContactListener implements ContactListener {
-
+		
 	@Override
 	public void beginContact(Contact contact) {
-		
 		if (hasID(contact, Player.FEET_SENSOR_ID, Level.LEVEL_SENSOR_ID))
 				footContacts++;
 		

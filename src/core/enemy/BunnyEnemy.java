@@ -13,18 +13,22 @@ import core.contactlistener.SensorData;
 import core.contactlistener.SensorSwitch;
 import core.contactlistener.TouchListener;
 import core.level.Level;
+import core.player.Player;
 import core.projectile.Projectile;
 import processing.core.PGraphics;
 
-public class TurtleEnemy extends Enemy  {
+public class BunnyEnemy extends Enemy  {
 
-	private float health = 3;
+	private float health = 5;
 	private World world;
 	private boolean direction = false;
+	private float jumpTimer = 0;
 	private Body body;
-	private SensorSwitch left, right;
+	private SensorSwitch left, right, down;
+	private Body target;
 
-	public TurtleEnemy(Vec2 pos, World world) {
+	public BunnyEnemy(Vec2 pos, World world, Body target) {
+		this.target = target;
 		this.world = world;
 		BodyDef bd = new BodyDef();
 		bd.position.set(pos.x/32.0f, pos.y/32.0f);
@@ -47,7 +51,7 @@ public class TurtleEnemy extends Enemy  {
 		
 		left = new SensorSwitch(new int[] {Enemy.SENSOR_ID, Level.LEVEL_SENSOR_ID});
 		right = new SensorSwitch(new int[] {Enemy.SENSOR_ID, Level.LEVEL_SENSOR_ID});
-		
+		down = new SensorSwitch(new int[] {Enemy.SENSOR_ID, Level.LEVEL_SENSOR_ID, Player.PLAYER_SENSOR_ID});		
 		
 		PolygonShape ps = new PolygonShape();
 		ps.setAsBox(.4f, .4f, new Vec2(-.5f, 0), 0);
@@ -72,16 +76,45 @@ public class TurtleEnemy extends Enemy  {
 		fd.userData = right.getSensorData();
 		
 		body.createFixture(fd);
+		
+		ps = new PolygonShape();
+		ps.setAsBox(.4f, .4f, new Vec2(0, .5f), 0);
+		
+		fd = new FixtureDef();
+		fd.shape = ps;
+		fd.density = .05f;
+		fd.friction = 0f;
+		fd.isSensor = true;
+		fd.userData = down.getSensorData();
+		
+		body.createFixture(fd);
 	}
 	
 	@Override
 	public boolean update(float delta) {
+		
 		if (right.touches > 0)
 			direction = false;
 		if (left.touches > 0)
 			direction = true;
-		body.applyLinearImpulse(new Vec2(direction ? 1 : -1, 0), new Vec2(0, 0));
-		body.setLinearVelocity(new Vec2(body.getLinearVelocity().x * .5f, body.getLinearVelocity().y));
+		if (target != null) {
+			if (target.getPosition().x < body.getPosition().x) {
+				direction = false;
+			} else {
+				direction = true;
+			}
+		}
+		jumpTimer -= delta;
+		if (down.touches > 0) {
+			body.setLinearVelocity(new Vec2(body.getLinearVelocity().x * .5f, body.getLinearVelocity().y));
+		} else {
+			body.applyLinearImpulse(new Vec2(direction ? .1f : -.1f, 0), new Vec2(0, 0));
+		}
+		if (jumpTimer < 0 && down.touches > 0) {
+			jumpTimer = (float) (20 + Math.random()*50);
+			body.applyLinearImpulse(new Vec2(direction ? 5 : -5, -5), new Vec2(0, 0));
+		}
+		
 		if (health <= 0) {
 			world.destroyBody(body);
 			world = null;
@@ -93,8 +126,8 @@ public class TurtleEnemy extends Enemy  {
 	@Override
 	public void draw(PGraphics g) {
 		g.pushMatrix();
-			g.fill(255, 0, 255);
-			g.rect(body.getPosition().x*32, body.getPosition().y*32, 48, 32);
+			g.fill(255, 0, 0);
+			g.rect(body.getPosition().x*32, body.getPosition().y*32, 32, 32);
 		g.popMatrix();
 	}
 

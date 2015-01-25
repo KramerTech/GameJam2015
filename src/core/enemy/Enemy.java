@@ -1,5 +1,7 @@
 package core.enemy;
 
+import org.jbox2d.dynamics.Body;
+
 import processing.core.PGraphics;
 
 public abstract class Enemy {
@@ -10,4 +12,6 @@ public abstract class Enemy {
 	public abstract void draw(PGraphics g);
 	
 	public abstract void hit(float val);
+	
+	public abstract Body getBody();
 }

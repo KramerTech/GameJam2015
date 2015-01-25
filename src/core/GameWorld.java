@@ -17,7 +17,7 @@ import core.projectile.Projectile;
 public class GameWorld {
 
 	private Level level;
-	private Player player;
+	public Player player;
 	
 	public World world;
 	
@@ -91,7 +91,9 @@ public class GameWorld {
 	public void update(float delta) {
 		if (delta > 2)
 			delta = 2;
+		
 		world.step(delta/45.0f, 12, 4);
+		
 		player.doMovement(playerRight, playerLeft, playerJump, worldCL.footContacts, playerShoot);
 		playerShoot = false;
 		player.update(delta);
@@ -108,7 +110,7 @@ public class GameWorld {
 			Enemy e = i2.next();
 			if (e.update(delta))
 				i2.remove();
-		}
+		}		
 	}
 	
 	public void drawPlayer(PGraphics g) {
