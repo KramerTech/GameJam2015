@@ -174,7 +174,6 @@ public class World implements Element {
 	
 
 	public void add(int x, int y, Block block) {
-		System.out.println(x + " " + y);
 		synchronized (world) {
 			if (x < 0 || y < 0) return;
 			ArrayList<Block> row;
@@ -191,10 +190,12 @@ public class World implements Element {
 				world.add(row);
 			}
 			
-			if (x < row.size() && canOverwrite(row.get(x))) {
-				if (current != null)
-					current.move(x, y, row.get(x));
-				row.set(x, block);
+			if (x < row.size()) {
+				if (current == null || canOverwrite(row.get(x))) {
+					if (current != null)
+						current.move(x, y, row.get(x));
+					row.set(x, block);
+				}
 			} else {
 				for (int i = x - row.size(); i > 0; i--)
 					row.add(null);
@@ -248,7 +249,7 @@ public class World implements Element {
 			int miny = Math.max(y, oy);
 			x = (Math.max(x, ox) - minx + 1) * zoom;
 			y = (miny + 1 - Math.min(y, oy)) * zoom;
-			g.fill(block.color);
+			g.fill(block == null ? 0x88000000: block.color);
 			g.rect(getX(minx, g), getY(miny, g), x, y);
 		}
 		
@@ -271,8 +272,8 @@ public class World implements Element {
 	}
 	
 	
-	public boolean safe() {
-		return !(rect || select);
+	public boolean unsafe() {
+		return rect || select;
 	}
 	
 	

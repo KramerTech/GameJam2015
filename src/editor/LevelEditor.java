@@ -26,12 +26,17 @@ public class LevelEditor extends PApplet {
 	}
 	
 	
+	public void setTitle(String title) {
+		if (title == null) return;
+		frame.setTitle(title);
+	}
+	
 	public void setup() {
 		size((int) (displayWidth * .45), (int) (displayHeight * .45));
 		frameRate(30);
 		colorMode(RGB, 255);
 		frame.setResizable(true);
-		frame.setTitle("Level Editor");
+		frame.setTitle("untitled.lvl");
 	}
 	
 	public void mouseWheelMoved(MouseWheelEvent e) {
@@ -56,8 +61,8 @@ public class LevelEditor extends PApplet {
 		switch (key) {
 		case ' ': world.undo(); break;
 		case 'r': world.noScroll(); break;
-		case 's': Save.save(world);
-		case 'a': Save.saveAs(world);
+		case 's': setTitle(Save.save(world)); break;
+		case 'a': setTitle(Save.saveAs(world)); break;
 		default: super.keyPressed(e);
 		}
 	}
