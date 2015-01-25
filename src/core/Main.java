@@ -22,8 +22,10 @@ public class Main extends PApplet {
 	public Main() {}
 	
 	private ArrayList<ArrayList<Block>> data = null;
-	public Main(ArrayList<ArrayList<Block>> data) {
+	
+	public Main(ArrayList<ArrayList<Block>> data, int bgType) {
 		this.data = data;
+		this.testBgColor = bgType;
 	}
 	
 	ArrayList<GameWorld> worlds;
@@ -32,6 +34,7 @@ public class Main extends PApplet {
 	SoundPlayer soundPlayer;
 	
 	int worldChangeDelay = 0;
+	int testBgColor;
 	
 	public long lastTime;
 	
@@ -59,16 +62,19 @@ public class Main extends PApplet {
 		worlds = new ArrayList<GameWorld>();
 
 		if (data != null) {
-			worlds.add(Loader.load(data, soundPlayer));
+			worlds.add(Loader.load(data, soundPlayer, testBgColor));
 		} else {
 			for (int i = 0; i < 100; i++) {
 				if (!new File(Loader.SAVES + "level" + i + ".lvl").exists()) continue;
+				System.out.println("Loading level " + i);
 				worlds.add(Loader.load("level" + i, soundPlayer));
 			}
 		}
 		
 		currWorld = worlds.get(0);
-		soundPlayer.playLoop("bgmusic", "fmus");
+		
+		soundPlayer.playField();
+		//soundPlayer.playLoop("spacemus", "smus");		
 		
 		/*
 		for (int i = 0; i < 5; i++)
@@ -109,8 +115,19 @@ public class Main extends PApplet {
 		currWorld.playerRight = false;
 		currWorld.playerJump = false;
 		
-		soundPlayer.play("static");
+		soundPlayer.play("pickup");
+		
 		currWorld = worlds.get(worldId);
+		
+		switch(currWorld.level.getBgType()) {
+			case 0: 
+				soundPlayer.playField();
+			break;
+			case 1: 
+				soundPlayer.playSpace();
+			break;
+		}
+		
 		worldChangeDelay = 100;
 	}
 	

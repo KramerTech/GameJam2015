@@ -46,7 +46,7 @@ public class Loader {
 		
         int playerx = 0, playery = 0;
         
-		Level level = new Level(mapx, mapy);
+		Level level = new Level(mapx, mapy, bgType);
 		ArrayList<Vec3> entities = new ArrayList<Vec3>();
         while (in.hasNextInt()) {
             line = new Scanner(in.nextLine());
@@ -78,10 +78,10 @@ public class Loader {
 		return build;
 	}
 
-	public static GameWorld load(ArrayList<ArrayList<Block>> data, SoundPlayer soundPlayer) {
+	public static GameWorld load(ArrayList<ArrayList<Block>> data, SoundPlayer soundPlayer, int bgType) {
 		int maxx = 0;
 		for (ArrayList<Block> row : data) if (row != null) maxx = Math.max(maxx, row.size());
-        Level level = new Level(maxx, data.size());
+        Level level = new Level(maxx, data.size(), bgType);
         int playerx = 0, playery = 0;
 		ArrayList<Vec3> entities = new ArrayList<Vec3>();
         

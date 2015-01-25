@@ -71,7 +71,7 @@ public class LevelEditor extends PApplet {
 		case 'd': world.drag(true); break;
 		case 't':
 			JFrame f = new JFrame();
-			Main sim = new Main(world.data());
+			Main sim = new Main(world.data(), 0);
 			f.add(sim);
 			f.setSize(600, 600);
 			f.setVisible(true);
