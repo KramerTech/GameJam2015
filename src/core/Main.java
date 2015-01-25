@@ -64,6 +64,7 @@ public class Main extends PApplet {
 		
 		for (int x = 0; x < 6; x++) {
 			l.setBlock(x+20, 16-x, gb);
+			l.setBlock(30-x, 16-x, gb);
 		}
 		
 		worlds.add(new GameWorld(l, new Player(100,100, soundPlayer, null)));
