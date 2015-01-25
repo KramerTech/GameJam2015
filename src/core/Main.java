@@ -90,7 +90,6 @@ public class Main extends PApplet {
 		
 		if (worldChangeDelay == 0) {
 			currWorld.update(delta);
-			
 		} else {
 			worldChangeDelay--;
 		}
@@ -98,7 +97,9 @@ public class Main extends PApplet {
 		currWorld.draw(g);
 		
 		if(currWorld.player.dead) {
-			currWorld = null;
+			int i = worlds.indexOf(currWorld);
+			currWorld = Loader.load("level" + (i+1), soundPlayer);
+			worlds.set(i, currWorld);
 		}
 	}
 	

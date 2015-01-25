@@ -38,6 +38,8 @@ public class Player {
 	
 	public boolean dead;
 	
+	public boolean win;
+	
 	public Player(float x, float y, SoundPlayer sp, GameWorld world) {
 		this.world = world;
 		this.x = x;
@@ -130,7 +132,7 @@ public class Player {
 		fd.density = .5f;
 		fd.friction = 0f;
 		fd.restitution = 0f;
-		fd.userData = new SensorData(PLAYER_SENSOR_ID);
+		fd.userData = new SensorData(PLAYER_SENSOR_ID, this);
 		
 		playerBody = world.createBody(bd);
 		playerBody.createFixture(fd);
@@ -174,6 +176,10 @@ public class Player {
 	public void kill() {
 		dead = true;
 		
+	}
+	
+	public void win() {
+		win = true;
 	}
 
 }

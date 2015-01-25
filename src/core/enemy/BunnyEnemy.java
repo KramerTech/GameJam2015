@@ -98,10 +98,15 @@ public class BunnyEnemy extends Enemy  {
 		if (left.touches > 0)
 			direction = true;
 		if (target != null) {
-			if (target.getPosition().x < body.getPosition().x) {
-				direction = false;
-			} else {
-				direction = true;
+			float dx = target.getPosition().x-body.getPosition().x;
+			float dy = target.getPosition().y-body.getPosition().y;
+			float dist = dx*dx + dy*dy;
+			if (dist < 400) {
+				if (target.getPosition().x < body.getPosition().x) {
+					direction = false;
+				} else {
+					direction = true;
+				}
 			}
 		}
 		jumpTimer -= delta;

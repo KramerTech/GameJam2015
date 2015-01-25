@@ -5,7 +5,9 @@ import org.jbox2d.callbacks.ContactListener;
 import org.jbox2d.collision.Manifold;
 import org.jbox2d.dynamics.contacts.Contact;
 
+import core.enemy.BunnyEnemy;
 import core.enemy.Enemy;
+import core.enemy.TurtleEnemy;
 import core.level.Level;
 import core.player.Player;
 import core.projectile.Projectile;
@@ -32,6 +34,14 @@ public class WorldContactListener implements ContactListener {
 		SensorData data;
 		if ((data = getDataFromID(contact, TouchListener.SENSOR_ID)) != null) {
 			((TouchListener) data.actor).startTouch(data, (SensorData) ((data == contact.getFixtureA().getUserData()) ? contact.getFixtureB().getUserData() : contact.getFixtureA().getUserData()));
+		}
+		
+		if (hasID(contact, Player.PLAYER_SENSOR_ID, BunnyEnemy.SENSOR_ID)) {
+			((Player) getDataFromID(contact, Player.PLAYER_SENSOR_ID).actor).kill();
+		}
+		
+		if (hasID(contact, Player.PLAYER_SENSOR_ID, TurtleEnemy.SENSOR_ID)) {
+			((Player) getDataFromID(contact, Player.PLAYER_SENSOR_ID).actor).kill();
 		}
 	}
 
