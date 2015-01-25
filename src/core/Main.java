@@ -62,7 +62,7 @@ public class Main extends PApplet {
 		worlds = new ArrayList<GameWorld>();
 
 		if (data != null) {
-			worlds.add(Loader.load(data, soundPlayer));
+			worlds.add(Loader.load(data, soundPlayer, 0));
 		} else {
 			for (int i = 0; i < 100; i++) {
 				if (!new File(Loader.SAVES + "level" + i + ".lvl").exists()) continue;

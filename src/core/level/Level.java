@@ -20,9 +20,12 @@ public class Level {
 	
 	private Block[][] level;
 	
-	public Level(int w, int h) {
+	public Level(int w, int h, int bgType) {
 		this.width = w;
 		this.height = h;
+		
+		this.bgType = bgType;
+		
 		level = new Block[w][h];
 		clear();
 	}
@@ -36,7 +39,7 @@ public class Level {
 	
 	public void draw(PGraphics g, int x, int y, int w, int h) {
 		Block curBlock;
-		g.background(0,0,0);
+		drawBackground(g);
 		for (int xx = x; xx < x+w; xx++) {
 			for (int yy = y; yy < y+h; yy++) {
 				if (xx >= 0 && yy >= 0 && xx < width && yy < height) {
@@ -65,6 +68,13 @@ public class Level {
 		}
 	}
 	
+	public void drawBackground(PGraphics g) {
+		switch (this.bgType) {
+			case 0: g.background(0,128,255); break;
+			case 1: g.background(30,30,30); break;
+		}
+	}
+	
 	public void initPhysics(World world) {
 		
 		for (int i = 0; i < width; i++) {
@@ -88,5 +98,9 @@ public class Level {
 				}
 			}
 		}
+	}
+
+	public int getBgType() {
+		return this.bgType;
 	}
 }
