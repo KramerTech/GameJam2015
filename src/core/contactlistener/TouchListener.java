@@ -8,5 +8,6 @@ public interface TouchListener {
 	 * @param a the sensor object
 	 * @param b the other object
 	 */
-	public void touch(SensorData a, SensorData b);
+	public void startTouch(SensorData a, SensorData b);
+	public void endTouch(SensorData a, SensorData b);
 }

@@ -79,7 +79,8 @@ public class Main extends PApplet {
 		
 		currWorld = worlds.get(0);
 		
-		worlds.get(0).enemies.add(new TurtleEnemy(new Vec2(500, 100), worlds.get(0).world));
+		for (int i = 0; i < 10; i++)
+			worlds.get(0).enemies.add(new TurtleEnemy(new Vec2(500 + i*100, 100), worlds.get(0).world));
 		
 		lastTime = this.millis();
 	}

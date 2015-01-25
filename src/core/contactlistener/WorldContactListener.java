@@ -33,7 +33,7 @@ public class WorldContactListener implements ContactListener {
 		
 		SensorData data;
 		if ((data = getDataFromID(contact, TouchListener.SENSOR_ID)) != null) {
-			((TouchListener) data.actor).touch(data, (SensorData) ((data == contact.getFixtureA().getUserData()) ? contact.getFixtureB().getUserData() : contact.getFixtureB().getUserData()));
+			((TouchListener) data.actor).startTouch(data, (SensorData) ((data == contact.getFixtureA().getUserData()) ? contact.getFixtureB().getUserData() : contact.getFixtureA().getUserData()));
 		}
 	}
 
@@ -41,6 +41,11 @@ public class WorldContactListener implements ContactListener {
 	public void endContact(Contact contact) {
 		if (hasID(contact, Player.FEET_SENSOR_ID, Level.LEVEL_SENSOR_ID))
 			footContacts--;
+		
+		SensorData data;
+		if ((data = getDataFromID(contact, TouchListener.SENSOR_ID)) != null) {
+			((TouchListener) data.actor).endTouch(data, (SensorData) ((data == contact.getFixtureA().getUserData()) ? contact.getFixtureB().getUserData() : contact.getFixtureA().getUserData()));
+		}
 	}
 
 	@Override
