@@ -8,8 +8,10 @@ public class Property {
 	public static final int BLOCK = 3;
 	public static final int PLAYER = 4;
 	public static final int NO_DRAW = 5;
+	public static final int KILL = 6;
+	public static final int END = 7;
 	
-	public static final int PROPERTY_COUNT = 6;
+	public static final int PROPERTY_COUNT = 8;
 	
 	@Override
 	public int hashCode() {
