@@ -101,9 +101,9 @@ public class TurtleEnemy extends Enemy  {
 		g.beginShape();
 		g.texture(sprite);
 		g.vertex(x, y, 0, 0);
-		g.vertex(x, y + 32, 0, sprite.height);
-		g.vertex(x + 32, y + 32, sprite.width, sprite.height);
-		g.vertex(x + 32, y, sprite.width, 0);
+		g.vertex(x, y + 48, 0, sprite.height);
+		g.vertex(x + 48, y + 48, sprite.width, sprite.height);
+		g.vertex(x + 48, y, sprite.width, 0);
 		g.endShape();
 	}
 

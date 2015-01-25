@@ -77,37 +77,4 @@ public class Loader {
 		
 		return build;
 	}
-
-	public static GameWorld load(ArrayList<ArrayList<Block>> data, SoundPlayer soundPlayer, int bgType) {
-		int maxx = 0;
-		for (ArrayList<Block> row : data) if (row != null) maxx = Math.max(maxx, row.size());
-        Level level = new Level(maxx, data.size(), bgType);
-        int playerx = 0, playery = 0;
-		ArrayList<Vec3> entities = new ArrayList<Vec3>();
-        
-		for (int y = 0; y < data.size(); y++) {
-			ArrayList<Block> row = data.get(y);
-			if (row == null) continue;
-			int dy = data.size() - y - 1;
-			for (int x = 0; x < row.size(); x++) {
-				Block b = row.get(x);
-				if (b == null) continue;
-		    	if (b.getProperties()[Property.PLAYER] != null) {
-		    		playerx = x * 32;
-		    		playery = dy * 32;
-		    		continue;
-		    	} else {
-		    		addBlock(level, entities, x, dy, b.getProperties());
-		    	}
-			}
-		}
-		
-		GameWorld build = new GameWorld(level, new Player(playerx, playery, soundPlayer, null));
-		
-		for (Vec3 e : entities) {
-			build.entities.add(EnitityGenerator.generate(e, build.world));
-		}
-		
-		return build;
-	}
 }
