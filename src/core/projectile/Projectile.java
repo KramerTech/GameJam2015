@@ -2,9 +2,10 @@ package core.projectile;
 
 import org.jbox2d.dynamics.Body;
 
+import core.Entity.Entity;
 import processing.core.PGraphics;
 
-public abstract class Projectile {
+public abstract class Projectile extends Entity {
 	
 	public static final int SENSOR_ID = 5;
 	

@@ -2,9 +2,10 @@ package core.enemy;
 
 import org.jbox2d.dynamics.Body;
 
+import core.Entity.Entity;
 import processing.core.PGraphics;
 
-public abstract class Enemy {
+public abstract class Enemy extends Entity {
 	
 	public static int SENSOR_ID = 6;
 	
